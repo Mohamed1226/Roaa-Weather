@@ -9,7 +9,7 @@ class GetWeatherModel {
 
       var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?q=$country&appid=$APIKEY');
       http.Response response = await http.get(url);
-      //print(response.body);
+      print(response.body);
       var body=jsonDecode(response.body);
       return body;
 

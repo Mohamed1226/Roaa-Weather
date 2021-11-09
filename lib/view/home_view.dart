@@ -44,7 +44,7 @@ class HomeView extends StatelessWidget {
                         suffix: IconButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              provider.getWeatherByCountryName(
+                              provider.getWeatherByCountryName(context,
                                   countryController.text);
                               countryController.clear();
                             }
@@ -55,7 +55,7 @@ class HomeView extends StatelessWidget {
                       onFieldSubmitted: (v) {
                         if (formKey.currentState!.validate()) {
                           provider
-                              .getWeatherByCountryName(countryController.text);
+                              .getWeatherByCountryName(context,countryController.text);
                           countryController.clear();
                         }
                       },
