@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roaa_weather/model/shar_pref.dart';
+import 'package:roaa_weather/data/shar_pref.dart';
 import 'package:roaa_weather/view_model/login_cubit/login_cubit.dart';
 import 'package:roaa_weather/view_model/login_cubit/login_state.dart';
 
-import '../custom_widget.dart';
+import '../custom_widget/custom_widget.dart';
 import '../home_view.dart';
 
 
@@ -83,9 +83,9 @@ class SignUpScreen extends StatelessWidget {
                             return "Not Correct Email";
                           } else {}
                         },
-                        prefix: Icon(Icons.event_note),
+                        prefix:const Icon(Icons.event_note),
                         type: TextInputType.emailAddress),
-                    SizedBox(
+                const    SizedBox(
                       height: 40,
                     ),
                     customTextFormField(

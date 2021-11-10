@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:roaa_weather/view_model/get_weather_view_model.dart';
 
 import 'weather_datail_view.dart';
@@ -11,6 +12,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<GetWeatherViewModel>(context);
+
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Form(
@@ -44,9 +46,11 @@ class HomeView extends StatelessWidget {
                         suffix: IconButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              provider.getWeatherByCountryName(context,
-                                  countryController.text);
+                              provider.getWeatherByCountryName(
+                                  context, countryController.text);
+
                               countryController.clear();
+                              //   provider.getAllCountries();
                             }
                           },
                           icon: const Icon(Icons.search),
@@ -54,8 +58,8 @@ class HomeView extends StatelessWidget {
                       ),
                       onFieldSubmitted: (v) {
                         if (formKey.currentState!.validate()) {
-                          provider
-                              .getWeatherByCountryName(context,countryController.text);
+                          provider.getWeatherByCountryName(
+                              context, countryController.text);
                           countryController.clear();
                         }
                       },
@@ -78,17 +82,7 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
                 provider.hasData
-                    ? InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => WeatherDetailsView(
-                                  provider.country,
-                                  (provider.country.temp - 273.15).toInt())));
-                        },
-                        child: Text(
-                          "Click  Here For Weather Details",
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ))
+                    ? _weatherDetailsWidget(context, provider)
                     : Container(),
               ],
             ),
@@ -96,5 +90,18 @@ class HomeView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _weatherDetailsWidget(BuildContext context, var provider) {
+    return InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => WeatherDetailsView(
+                  provider.country, (provider.country.temp - 273.15).toInt())));
+        },
+        child: Text(
+          "Click  Here For Weather Details",
+          style: Theme.of(context).textTheme.bodyText1,
+        ));
   }
 }

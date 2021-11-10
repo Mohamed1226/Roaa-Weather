@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roaa_weather/model/models/login_model.dart';
+import 'package:roaa_weather/data/models/login_model.dart';
 
 import 'login_state.dart';
 
@@ -10,18 +9,19 @@ class CubitLogIn extends Cubit<LoginState> {
   CubitLogIn() : super(SocialLoginInitState());
 
   static CubitLogIn get(context) => BlocProvider.of(context);
-  LoginModel model=LoginModel();
+
+  LoginModel _model = LoginModel();
+  LoginModel get model => _model;
   void userRegister(
       {required String name,
-        required String email,
-        required String password,
-        required String phone}) {
-    print("hello ");
+      required String email,
+      required String password,
+      required String phone}) {
+    print("hello");
     emit(SocialLoginLoadingState());
-    model.userRegister(password: password, email: email).then((value) {
-      print("user register  ");
+    _model.userRegister(password: password, email: email).then((value) {
+      print("user register");
       emit(SocialLoginSucceedState(value.user!.uid));
-
     }).catchError((e) {
       print("user error  ");
       emit(SocialLoginErrorState(e.toString()));
@@ -30,7 +30,7 @@ class CubitLogIn extends Cubit<LoginState> {
 
   void logIn({required String email, required String password}) {
     emit(SocialLoginLoadingState());
-    model.logIn(email: email, password: password).then((value) {
+    _model.logIn(email: email, password: password).then((value) {
       print("user login");
       emit(SocialLoginSucceedState(value.user!.uid));
     }).catchError((e) {
@@ -39,12 +39,10 @@ class CubitLogIn extends Cubit<LoginState> {
     });
   }
 
-  bool isVisible = true;
-
+  bool _isVisible = true;
+  bool get isVisible =>_isVisible;
   void changeVisibility() {
-    isVisible = !isVisible;
+    _isVisible = !_isVisible;
     emit(SocialChangeVisibiltyState());
   }
-
-
 }
