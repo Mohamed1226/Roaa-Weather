@@ -3,12 +3,10 @@ import 'package:roaa_weather/data/web_services/wearher_web_service.dart';
 
 class WeatherRepo {
   final WeatherWebService weatherWebService;
-
-  WeatherRepo(this.weatherWebService);
+ WeatherRepo(this.weatherWebService);
 
   CountryWeather _country = initialCountryWeather;
-
-  CountryWeather get country => _country;
+CountryWeather get country => _country;
 
   Future<CountryWeather> getWeather(String country) async =>
       await weatherWebService.getWeather(country).then((value) {

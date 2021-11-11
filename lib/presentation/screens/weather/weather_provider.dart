@@ -5,15 +5,15 @@ import 'package:roaa_weather/data/repositry/weather_repo.dart';
 
 class WeatherProvider extends ChangeNotifier {
   final WeatherRepo weatherRepo;
+ WeatherProvider(this.weatherRepo);
 
-  WeatherProvider(this.weatherRepo);
 
   CountryWeather? _country;
+CountryWeather? get country => _country;
 
-  CountryWeather? get country => _country;
+
   bool _hasData = false;
-
-  bool get hasData => _hasData;
+bool get hasData => _hasData;
 
   getWeatherByCountryName(BuildContext context, String countryName) async {
     weatherRepo.getWeather(countryName).then((value) {

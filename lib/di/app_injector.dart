@@ -21,6 +21,6 @@ class AppInjector {
   }
 
   injectProvider() {
-    return [Provider<WeatherProvider>(create: (_) => weatherViewModel)];
+    return [ListenableProvider<WeatherProvider>(create: (context) => weatherViewModel)];
   }
 }

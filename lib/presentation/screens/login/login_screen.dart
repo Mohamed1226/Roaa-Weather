@@ -6,8 +6,7 @@ import 'package:roaa_weather/presentation/screens/weather/weather_screen.dart';
 import 'package:roaa_weather/presentation/screens/register/register_screen.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
-import 'package:roaa_weather/presentation/widgets/app_text_form_field.dart';
-
+import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
 
 class LogInScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
@@ -16,7 +15,8 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthenticationState>(listener: (context, state) {
+    return BlocConsumer<AuthCubit, AuthenticationState>(
+        listener: (context, state) {
       if (state is AuthenticationErrorState) {
         customShowDialog(context, state.error);
       }
@@ -160,8 +160,8 @@ class LogInScreen extends StatelessWidget {
     }));
   }
 
-  navigateToSignUp(BuildContext context){
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SignUpScreen()));
+  navigateToSignUp(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SignUpScreen()));
   }
 }
