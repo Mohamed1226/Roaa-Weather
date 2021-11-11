@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/constant.dart';
-import 'package:roaa_weather/view/home_view.dart';
-import 'package:roaa_weather/view/sign_screen/login_screen.dart';
-import 'package:roaa_weather/view_model/get_weather_view_model.dart';
-import 'package:roaa_weather/view_model/login_cubit/login_cubit.dart';
-
+import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
 import 'core/app_route.dart';
 import 'data/shar_pref.dart';
+import 'di/app_injector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,24 +15,23 @@ void main() async {
   await CacheHelper.init();
   Widget widget;
 
-  AppRoute appRoute =AppRoute();
-     widget = appRoute.isLogin();
+  AppRoute appRoute = AppRoute();
+  widget = appRoute.isLogin(); //TODO: refactor
   runApp(MyApp(widget));
 }
 
 class MyApp extends StatelessWidget {
   Widget widget;
+  var appInjector = AppInjector();
 
   MyApp(this.widget);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => CubitLogIn()),
-      ],
-      child: ChangeNotifierProvider<GetWeatherViewModel>(
-        create: (_) => GetWeatherViewModel(),
+      providers: appInjector.injectBloc(),
+      child: MultiProvider(
+        providers: appInjector.injectProvider(),
         child: MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
