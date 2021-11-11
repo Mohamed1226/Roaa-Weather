@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
+//TODO: implement
+// class AppTextFormField extends StatelessWidget {
+//   const AppTextFormField({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
 
-Widget customTextFormField(
+//TODO: move to class
+Widget appTextFormField(
     {required bool obsure,
       required TextInputType type,
       FormFieldSetter? onSaved,

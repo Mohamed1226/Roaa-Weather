@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
-import 'package:roaa_weather/view_model/login_cubit/login_cubit.dart';
-import 'package:roaa_weather/view_model/login_cubit/login_state.dart';
+import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
+import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
+import 'package:roaa_weather/presentation/widgets/app_text_form_field.dart';
 
-import '../custom_widget/custom_widget.dart';
-import '../home_view.dart';
+import '../weather/weather_screen.dart';
 
 
 class SignUpScreen extends StatelessWidget {
@@ -17,9 +17,9 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CubitLogIn, LoginState>(
+    return BlocConsumer<AuthCubit, AuthenticationState>(
       listener: (context, state) {
-        if (state is SocialLoginErrorState) {
+        if (state is AuthenticationErrorState) {
           showDialog(
               context: context,
               builder: (context) {
@@ -28,16 +28,16 @@ class SignUpScreen extends StatelessWidget {
                 );
               });
         }
-        if (state is SocialLoginSucceedState) {
+        if (state is AuthenticationSucceedState) {
           CacheHelper.putData(key: "uId", value: state.uId);
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return HomeView();
+            return WeatherScreen();
           }));
         }
       },
       builder: (context, state) {
-        var cubit = CubitLogIn.get(context);
+        var cubit = AuthCubit.get(context);
         return Scaffold(
           appBar: AppBar(),
           body: SingleChildScrollView(
@@ -53,10 +53,10 @@ class SignUpScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline5,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 60,
                     ),
-                    customTextFormField(
+                    appTextFormField(
                         controller: name,
                         obsure: false,
                         label: "Your Name",
@@ -69,9 +69,10 @@ class SignUpScreen extends StatelessWidget {
                         prefix: Icon(Icons.drive_file_rename_outline),
                         type: TextInputType.text),
                     SizedBox(
+                      
                       height: 40,
                     ),
-                    customTextFormField(
+                    appTextFormField(
                         controller: email,
                         obsure: false,
                         label: "Your Email",
@@ -88,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                 const    SizedBox(
                       height: 40,
                     ),
-                    customTextFormField(
+                    appTextFormField(
                       controller: password,
                       obsure: cubit.isVisible,
                       label: "Your Password",
@@ -114,7 +115,7 @@ class SignUpScreen extends StatelessWidget {
                    const  SizedBox(
                       height: 40,
                     ),
-                    customTextFormField(
+                    appTextFormField(
                       controller: phoneNumber,
                       obsure: false,
                       label: "Your Phone Number",
@@ -138,7 +139,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       width: double.infinity,
                       height: 50,
-                      child: state is SocialLoginLoadingState
+                      child: state is AuthenticationLoadingState
                           ?const  Center(
                               child: CircularProgressIndicator(),
                             )
@@ -183,4 +184,5 @@ class SignUpScreen extends StatelessWidget {
       },
     );
   }
+
 }

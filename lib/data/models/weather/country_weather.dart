@@ -43,3 +43,12 @@ class CountryWeather {
     _feelsLike = json["main"]["feels_like"];
   }
 }
+
+CountryWeather initialCountryWeather = CountryWeather(
+    feelsLike: 20.0,
+    name: "london",
+    humidity: 20,
+    pressure: 20,
+    temp: 20.0,
+    wind: 20.0);
+

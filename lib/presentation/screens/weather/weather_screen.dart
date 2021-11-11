@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
+import '../weather_details/weather_datail_view.dart';
 
-import 'package:roaa_weather/view_model/get_weather_view_model.dart';
-
-import 'weather_datail_view.dart';
-
-class HomeView extends StatelessWidget {
+class WeatherScreen extends StatelessWidget {
   TextEditingController countryController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<GetWeatherViewModel>(context);
+    var weatherViewModel = Provider.of<WeatherProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
@@ -46,7 +44,7 @@ class HomeView extends StatelessWidget {
                         suffix: IconButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              provider.getWeatherByCountryName(
+                              weatherViewModel.getWeatherByCountryName(
                                   context, countryController.text);
 
                               countryController.clear();
@@ -58,7 +56,7 @@ class HomeView extends StatelessWidget {
                       ),
                       onFieldSubmitted: (v) {
                         if (formKey.currentState!.validate()) {
-                          provider.getWeatherByCountryName(
+                          weatherViewModel.getWeatherByCountryName(
                               context, countryController.text);
                           countryController.clear();
                         }
@@ -73,16 +71,17 @@ class HomeView extends StatelessWidget {
                       width: 200,
                       height: 200,
                     ),
-                    Text(
-                      provider.hasData
-                          ? "${(provider.country.temp - 273.15).toInt()} C"
-                          : "",
-                      style: Theme.of(context).textTheme.bodyText2,
-                    )
+                    if (weatherViewModel.country != null)
+                      Text(
+                        weatherViewModel.hasData
+                            ? "${(weatherViewModel.country!.temp - 273.15).toInt()} C"
+                            : "",
+                        style: Theme.of(context).textTheme.bodyText2,
+                      )
                   ],
                 ),
-                provider.hasData
-                    ? _weatherDetailsWidget(context, provider)
+                weatherViewModel.hasData
+                    ? _SectionweatherDetailsWidget(context, weatherViewModel)
                     : Container(),
               ],
             ),
@@ -92,7 +91,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  _weatherDetailsWidget(BuildContext context, var provider) {
+  _SectionweatherDetailsWidget(BuildContext context, var provider) {
     return InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
