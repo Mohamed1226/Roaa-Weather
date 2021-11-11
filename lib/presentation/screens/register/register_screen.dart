@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
 import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
@@ -12,6 +13,8 @@ class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+
   final TextEditingController name = TextEditingController();
   final TextEditingController phoneNumber = TextEditingController();
 
@@ -39,22 +42,35 @@ class SignUpScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AuthCubit.get(context);
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            backgroundColor:
+            Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
+            elevation: 0,
+          ),
           body: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     Center(
                       child: Text(
                         "Sign UP",
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ),
                     const SizedBox(
-                      height: 60,
+                      height: 15,
+                    ),
+                    Text(
+                      "Name",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(
+                      height: 7,
                     ),
                     appTextFormField(
                         controller: name,
@@ -66,11 +82,40 @@ class SignUpScreen extends StatelessWidget {
                             return "Name can not be empty";
                           } else {}
                         },
-                        prefix: Icon(Icons.drive_file_rename_outline),
+                        prefix:const Icon(Icons.drive_file_rename_outline),
                         type: TextInputType.text),
-                    SizedBox(
-                      
-                      height: 40,
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Phone NM",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    appTextFormField(
+                        controller: phoneNumber,
+                        obsure: false,
+                        label: "Your Phone Number",
+                        onSaved: (v) {},
+                        validate: (v) {
+                          if (v.toString().isEmpty) {
+                            return "Phone Number can not be empty";
+                          } else {}
+                        },
+                        prefix:const Icon(Icons.phone),
+                        type: TextInputType.text),
+                 const   SizedBox(
+
+                      height: 15,
+                    ),
+                    Text(
+                      "Email",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(
+                      height: 7,
                     ),
                     appTextFormField(
                         controller: email,
@@ -87,7 +132,14 @@ class SignUpScreen extends StatelessWidget {
                         prefix:const Icon(Icons.event_note),
                         type: TextInputType.emailAddress),
                 const    SizedBox(
-                      height: 40,
+                      height: 15,
+                    ),
+                    Text(
+                      "Password",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(
+                      height: 7,
                     ),
                     appTextFormField(
                       controller: password,
@@ -113,68 +165,48 @@ class SignUpScreen extends StatelessWidget {
                       type: TextInputType.number,
                     ),
                    const  SizedBox(
-                      height: 40,
+                      height: 15,
+                    ),
+
+                    Text(
+                      "Confirm Password",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const    SizedBox(
+                      height: 7,
                     ),
                     appTextFormField(
-                      controller: phoneNumber,
+                      controller: confirmPassword,
                       obsure: false,
-                      label: "Your Phone Number",
+                      label: "Confirm Your Password",
+                      suffix: IconButton(
+                        icon: Icon(cubit.isVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          cubit.changeVisibility();
+                        },
+                      ),
                       onSaved: (v) {},
                       validate: (v) {
                         if (v.toString().isEmpty) {
-                          return "Phone Number can not be empty";
+                          return "Password can not be empty";
                         } else if (v.toString().length < 6) {
-                          return "InCorrect Phone Number";
+                          return "Weakly Password";
                         } else {}
                       },
-                      prefix: Icon(Icons.phone),
+                      prefix: const Icon(Icons.ac_unit),
                       type: TextInputType.number,
                     ),
-                    SizedBox(
+                  const  SizedBox(
                       height: 30,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      width: double.infinity,
-                      height: 50,
-                      child: state is AuthenticationLoadingState
-                          ?const  Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  cubit.userRegister(
-                                      name: name.text,
-                                      email: email.text,
-                                      password: password.text,
-                                      phone: phoneNumber.text);
-                                }
-                              },
-                              child:const Text("Sign Up")),
+                    sectionButtonLogin(state, cubit, context),
+
+                    const    SizedBox(
+                      height: 15,
                     ),
-                 const    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      children: [
-                       const Text("You Have an email ?",style: TextStyle(fontSize: 20),),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child:const Text(
-                            "Log In",
-                            style: TextStyle(color: Colors.blue,fontSize: 24),
-                          ),
-                        ),
-                      ],
-                    ),
+                    sectionSignChosen(context),
                   ],
                 ),
               ),
@@ -184,5 +216,64 @@ class SignUpScreen extends StatelessWidget {
       },
     );
   }
+  Widget sectionButtonLogin(state, cubit, BuildContext context) {
+    return state is AuthenticationLoadingState
+        ? const Center(
+      child: CircularProgressIndicator(),
+    )
+        : MaterialButton(
+        color: Theme.of(context).primaryColor,
+        minWidth: MediaQuery.of(context).size.width - 50,
+        height: 50,
+        shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            if (_formKey.currentState!.validate()) {
+              cubit.userRegister(
+                  name: name.text,
+                  email: email.text,
+                  password: password.text,
+                  phone: phoneNumber.text);
+            }
+          }
+        },
+        child: Text(
+          "REGISTER",
+          style: Theme.of(context).textTheme.headline1,
+        ));
+  }
+  Widget sectionSignChosen(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Have an Account?",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        GestureDetector(
+          onTap: () {
+            navigateToSignUp(context);
+          },
+          child: Text(
+            "Sign in",
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+      ],
+    );
+  }
 
+  saveIdThenNavigate(BuildContext context, String id) {
+    CacheHelper.putData(key: "uId", value: id);
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return WeatherScreen();
+    }));
+  }
+
+  navigateToSignUp(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LogInScreen()));
+  }
 }

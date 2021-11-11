@@ -9,6 +9,11 @@ class AuthCubit extends Cubit<AuthenticationState> {
   AuthCubit(this.authRepo) : super(AuthenticationInitState());
 
   static AuthCubit get(context) => BlocProvider.of(context);
+  bool isRemember=false;
+  isRemembered(bool rem){
+    isRemember=rem;
+    emit(AuthenticationIsRememberState());
+  }
 
   void userRegister(
       {required String name,
@@ -45,4 +50,57 @@ class AuthCubit extends Cubit<AuthenticationState> {
     _isVisible = !_isVisible;
     emit(AuthenticationVisibilityState());
   }
+
+
+
+  // Future<dynamic> signInWithGoogle() async {
+  //   emit(SocialLoginLoadingState());
+  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //
+  //   final GoogleSignInAuthentication? googleAuth =
+  //   await googleUser?.authentication;
+  //
+  //   final credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+  //   FirebaseAuth.instance.signInWithCredential(credential).then((user) {
+  //     createUserInFireStore(
+  //         name: user.user!.uid,
+  //         email: user.user!.email,
+  //         phone: user.user!.phoneNumber,
+  //         uId: user.user!.uid);
+  //
+  //     emit(SocialLoginSucceedState(googleUser!.id.toString()));
+  //     return user;
+  //   }).catchError((onError) {
+  //     emit(SocialLoginErrorState(onError.toString()));
+  //   });
+  //   // Once signed in, return the UserCredential
+  // }
+  //
+  // Future<UserCredential> signInWithFacebook() async {
+  //   // Trigger the sign-in flow
+  //   final LoginResult loginResult = await FacebookAuth.instance.login();
+  //
+  //   // Create a credential from the access token
+  //   final OAuthCredential facebookAuthCredential =
+  //   FacebookAuthProvider.credential(loginResult.accessToken!.token);
+  //
+  //   FirebaseAuth.instance
+  //       .signInWithCredential(facebookAuthCredential)
+  //       .then((user) {
+  //     createUserInFireStore(
+  //         name: user.user!.uid,
+  //         email: user.user!.email,
+  //         phone: user.user!.phoneNumber,
+  //         uId: user.user!.uid);
+  //
+  //     emit(SocialLoginSucceedState(facebookAuthCredential.idToken.toString()));
+  //   }).catchError((onError) {
+  //     emit(SocialLoginErrorState(onError.toString()));
+  //   });
+  //
+  //   return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  // }
 }

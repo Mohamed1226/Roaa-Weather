@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roaa_weather/core/constant.dart';
@@ -27,20 +28,32 @@ class LogInScreen extends StatelessWidget {
     }, builder: (context, state) {
       var cubit = AuthCubit.get(context);
       return Scaffold(
-        appBar: AppBar(),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+          backgroundColor:
+              Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
+          elevation: 0,
+          leading: Text(""),
+        ),
         body: SingleChildScrollView(
           child: Form(
             key: formKey,
             child: Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
-                  textFieldsLogin(context, cubit),
-                  buttonLogin(state, cubit),
-                  const SizedBox(
-                    height: 40,
+                  Column(
+                    children: [
+                      sectionTextFieldsLogin(context, cubit),
+                      sectionCheckRemember(cubit,context),
+                      sectionButtonLogin(state, cubit, context),
+                      sectionSignInWithFaceAndGoogle(context)
+                    ],
                   ),
-                  signChosen(context),
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  sectionSignChosen(context),
                 ],
               ),
             ),
@@ -50,43 +63,30 @@ class LogInScreen extends StatelessWidget {
     });
   }
 
-  Widget buttonLogin(state, cubit) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      width: double.infinity,
-      height: 50,
-      child: state is AuthenticationLoadingState
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ElevatedButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  cubit.logIn(email: email.text, password: password.text);
-                }
-              },
-              child: const Text("Log In")),
-    );
-  }
-
-  Widget textFieldsLogin(BuildContext context, cubit) {
+  Widget sectionTextFieldsLogin(BuildContext context, cubit) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
           child: Text(
-            "Login",
-            style: Theme.of(context).textTheme.headline5,
+            "Sign In",
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
         const SizedBox(
-          height: 60,
+          height: 30,
+        ),
+        Text(
+          "Email",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        const SizedBox(
+          height: 10,
         ),
         appTextFormField(
             controller: email,
             obsure: false,
-            label: "Your Email",
+            label: "Enter Your Name",
             onSaved: (v) {},
             validate: (v) {
               if (v.toString().isEmpty) {
@@ -98,12 +98,19 @@ class LogInScreen extends StatelessWidget {
             prefix: const Icon(Icons.event_note),
             type: TextInputType.emailAddress),
         const SizedBox(
-          height: 40,
+          height: 30,
+        ),
+        Text(
+          "Password",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        const SizedBox(
+          height: 10,
         ),
         appTextFormField(
           controller: password,
           obsure: cubit.isVisible,
-          label: "Your Password",
+          label: "Enter Your Password",
           onSaved: (v) {},
           validate: (v) {
             if (v.toString().isEmpty) {
@@ -123,29 +130,124 @@ class LogInScreen extends StatelessWidget {
           type: TextInputType.number,
         ),
         const SizedBox(
-          height: 30,
+          height: 10,
+        ),
+        Row(
+          children: [
+            const Spacer(),
+            Text(
+              "Forget Password",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 5,
         ),
       ],
     );
   }
 
-  Widget signChosen(BuildContext context) {
+  Widget sectionCheckRemember(cubit,BuildContext context) {
     return Row(
       children: [
-        const Text(
-          "You Don Not Have an email ?",
-          style: TextStyle(fontSize: 20),
+        Checkbox(value: cubit.isRemember, onChanged: (v) {
+                    cubit.isRemembered(v);
+        }),
+        Text(
+          "Remember Me",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+      ],
+    );
+  }
+
+  Widget sectionButtonLogin(state, cubit, BuildContext context) {
+    return state is AuthenticationLoadingState
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : MaterialButton(
+            color: Theme.of(context).primaryColor,
+            minWidth: MediaQuery.of(context).size.width - 50,
+            height: 50,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                cubit.logIn(email: email.text, password: password.text);
+              }
+            },
+            child: Text(
+              "LOGIN",
+              style: Theme.of(context).textTheme.headline1,
+            ));
+  }
+
+  Widget sectionSignInWithFaceAndGoogle(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          "-OR-",
+          style: Theme.of(context).textTheme.bodyText1,
         ),
         const SizedBox(
-          width: 10,
+          height: 15,
+        ),
+        Text(
+          "Sign in with",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {},
+              child: Image.asset(
+                "assets/face.jpg",
+                height: 40,
+                width: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            InkWell(
+              onTap: () {},
+              child: Image.asset(
+                "assets/google.jpg",
+                height: 40,
+                width: 40,
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget sectionSignChosen(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Dont Have an email?",
+          style: Theme.of(context).textTheme.bodyText2,
         ),
         GestureDetector(
           onTap: () {
             navigateToSignUp(context);
           },
-          child: const Text(
-            "Sign Up",
-            style: TextStyle(color: Colors.blue, fontSize: 24),
+          child: Text(
+            "Sign up",
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
       ],

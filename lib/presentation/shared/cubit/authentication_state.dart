@@ -17,3 +17,6 @@ class AuthenticationErrorState extends AuthenticationState {
 }
 
 class AuthenticationVisibilityState extends AuthenticationState {}
+
+
+class AuthenticationIsRememberState extends AuthenticationState {}

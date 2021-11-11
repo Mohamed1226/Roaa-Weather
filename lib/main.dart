@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: appInjector.injectProvider(),
         child: MaterialApp(
-          theme: theme,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: ThemeMode.dark,
           debugShowCheckedModeBanner: false,
           home: widget,
         ),
