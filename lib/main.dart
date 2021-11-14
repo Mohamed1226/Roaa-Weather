@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/constant.dart';
-import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
-import 'core/app_route.dart';
+import 'package:roaa_weather/presentation/screens/splash/splash_screen.dart';
 import 'data/shar_pref.dart';
 import 'di/app_injector.dart';
 
@@ -13,18 +12,12 @@ void main() async {
   await Firebase.initializeApp();
 
   await CacheHelper.init();
-  Widget widget;
 
-  AppRoute appRoute = AppRoute();
-  widget = appRoute.isLogin(); //TODO: refactor
-  runApp(MyApp(widget));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  Widget widget;
   var appInjector = AppInjector();
-
-  MyApp(this.widget);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +30,7 @@ class MyApp extends StatelessWidget {
           darkTheme: darkTheme,
           themeMode: ThemeMode.dark,
           debugShowCheckedModeBanner: false,
-          home: widget,
+          home: SplashView(),
         ),
       ),
     );

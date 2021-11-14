@@ -12,4 +12,12 @@ class AuthRepo{
   register({required String email, required String password}){
     return _authWebService.register(email: email,password: password);
   }
+
+  loginWithGoogle(){
+    return _authWebService.signInWithGoogle();
+  }
+
+  loginWithFacebook(){
+    return _authWebService.signInWithFacebook();
+  }
 }

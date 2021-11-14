@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roaa_weather/core/constant.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
 import 'package:roaa_weather/presentation/screens/weather/weather_screen.dart';
 import 'package:roaa_weather/presentation/screens/register/register_screen.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
+import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
 
 class LogInScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class LogInScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthenticationState>(
         listener: (context, state) {
       if (state is AuthenticationErrorState) {
-        customShowDialog(context, state.error);
+        appDialog(context, state.error);
       }
 
       if (state is AuthenticationSucceedState) {
@@ -47,7 +47,7 @@ class LogInScreen extends StatelessWidget {
                       sectionTextFieldsLogin(context, cubit),
                       sectionCheckRemember(cubit,context),
                       sectionButtonLogin(state, cubit, context),
-                      sectionSignInWithFaceAndGoogle(context)
+                      sectionSignInWithFaceAndGoogle(cubit,context)
                     ],
                   ),
                   const SizedBox(
@@ -168,7 +168,7 @@ class LogInScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           )
         : MaterialButton(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).buttonColor,
             minWidth: MediaQuery.of(context).size.width - 50,
             height: 50,
             shape:
@@ -184,7 +184,7 @@ class LogInScreen extends StatelessWidget {
             ));
   }
 
-  Widget sectionSignInWithFaceAndGoogle(BuildContext context) {
+  Widget sectionSignInWithFaceAndGoogle(cubit,BuildContext context) {
     return Column(
       children: [
         const SizedBox(
@@ -208,7 +208,10 @@ class LogInScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+
+                cubit.loginWithFacebook();
+              },
               child: Image.asset(
                 "assets/face.jpg",
                 height: 40,
@@ -220,7 +223,9 @@ class LogInScreen extends StatelessWidget {
               width: 20,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                cubit.loginWithGoogle();
+              },
               child: Image.asset(
                 "assets/google.jpg",
                 height: 40,

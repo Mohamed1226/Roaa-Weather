@@ -8,8 +8,18 @@ class WeatherRepo {
   CountryWeather _country = initialCountryWeather;
 CountryWeather get country => _country;
 
-  Future<CountryWeather> getWeather(String country) async =>
-      await weatherWebService.getWeather(country).then((value) {
+  Future<CountryWeather> getWeatherByCountryName(String country) async =>
+      await weatherWebService.getWeatherByCountryName(country).then((value) {
+        _country = CountryWeather.fromjson(value);
+        return _country;
+      }).catchError((e) {
+        print(e.toString());
+      });
+
+  Future<CountryWeather> getWeatherByUserLocation( lat, log) async =>
+
+      await weatherWebService.getWeatherByUserLocation(lat,log).then((value) {
+        print("222");
         _country = CountryWeather.fromjson(value);
         return _country;
       }).catchError((e) {
