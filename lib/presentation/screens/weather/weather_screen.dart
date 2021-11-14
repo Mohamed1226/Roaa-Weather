@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:roaa_weather/core/app_theme.dart';
 import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
 import 'package:roaa_weather/presentation/widget/app_card.dart';
 
 class WeatherScreen extends StatelessWidget {
+  // WeatherScreen(){
+  //   AppInjector().weatherViewModel.getCurrentLocation();
+  // }
   TextEditingController countryController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -39,18 +43,28 @@ class WeatherScreen extends StatelessWidget {
     );
   }
 
+  List themes = ['orange', "blue", "navyBlue", "purple"];
+
   _appBar(BuildContext context, weatherViewModel) {
     return AppBar(
       title: Text(
         "Flutter Weather",
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.headline2,
       ),
       backgroundColor: Theme.of(context).appBarTheme.color,
       // backgroundColor: Theme.of(context).,
       actions: [
         DropdownButton(
-          items: [],
-
+         //   value: weatherViewModel.value,
+            onChanged: (v) {
+              weatherViewModel.changeValueInDropDownButton(v);
+            },
+            items: themes
+                .map((theme) => DropdownMenuItem(
+                      value: theme,
+                      child: Text(theme),
+                    ))
+                .toList(),
             icon: Icon(
               Icons.settings,
               color: Theme.of(context).iconTheme.color,
@@ -154,14 +168,14 @@ class WeatherScreen extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "${(model.country!.temp - 273.15).toInt()} C",
+                  "${(model.country!.temp - 273.15).toInt()}°C",
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  "Feels Like ${(model.country!.feelsLike - 273.15).toInt()} C",
+                  "Feels Like ${(model.country!.feelsLike - 273.15).toInt()}°C",
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],
@@ -190,12 +204,12 @@ class WeatherScreen extends StatelessWidget {
         childAspectRatio: (3 / 2),
         crossAxisCount: 2,
         children: [
-          appCard(context, "Wind", "${model.country.wind.toString()} m/s"),
+          appCard(context, "Wind", "${model.country.wind.toString()}m/s"),
           appCard(context, "Pressure", model.country.pressure.toString()),
           appCard(context, "FeelsLike",
-              "${(model.country!.feelsLike - 273.15).toInt()} C"),
+              "${(model.country!.feelsLike - 273.15).toInt()}°C"),
           appCard(
-              context, "Humidity", "${model.country.humidity.toString()} %"),
+              context, "Humidity", "${model.country.humidity.toString()}%"),
         ],
       ),
     );

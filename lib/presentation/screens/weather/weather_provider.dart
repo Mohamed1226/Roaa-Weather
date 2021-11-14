@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:roaa_weather/core/app_theme.dart';
+import 'package:roaa_weather/core/location_retriever.dart';
 import 'package:roaa_weather/data/models/weather/country_weather.dart';
 import 'package:roaa_weather/data/repositry/weather_repo.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:roaa_weather/data/shar_pref.dart';
 import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 
@@ -13,13 +17,19 @@ class WeatherProvider extends ChangeNotifier {
 
   //geolator
   void getCurrentLocation(BuildContext context) async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
+    var position = await LocationRetriever().retrieve();
     //  print(position.longitude);
     getWeatherByUserLocation(context, position.latitude, position.longitude);
 
     notifyListeners();
+  }
+
+  CheckSaveddWeather() {
+    var countryWeather = CacheHelper.getData("countryWeather");
+    if (countryWeather != null) {
+      _country = CountryWeather.fromjson(jsonDecode(countryWeather));
+      _hasData = true;
+    }
   }
 
   //show textFormField
@@ -44,8 +54,8 @@ class WeatherProvider extends ChangeNotifier {
   getWeatherByUserLocation(BuildContext context, lat, log) async {
     //print("Lllll $lat");
     weatherRepo.getWeatherByUserLocation(lat, log).then((value) {
-      //print("1111");
       _country = value;
+      print(_country);
       changeImageAccordingTem();
 
       _hasData = true;
@@ -77,28 +87,63 @@ class WeatherProvider extends ChangeNotifier {
   //change image according temperature
   String image = "";
 
-  String changeImageAccordingTem() {
-    if (_country!.temp > 30) {
+  changeImageAccordingTem() {
+    if (_country!.temp - 273.15 > 30) {
       image = "assets/light.png";
-    } else if (_country!.temp > 15 && _country!.temp < 30) {
-      image = "assets/rain.png";
-    } else if (_country!.temp > 5 && _country!.temp < 15) {
-      image = "assets/rain.png";
-    } else {
-      image = "assets/thunder.png";
+      return;
     }
-    notifyListeners();
-    return image;
-  }
-   setData(){
-     CacheHelper.putData(key: "temp", value: _country!.temp.toString());
-     CacheHelper.putData(key: "name", value: _country!.name.toString());
-     CacheHelper.putData(key: "pressure", value: _country!.pressure.toString());
-     CacheHelper.putData(key: "wind", value: _country!.wind.toString());
-     CacheHelper.putData(key: "humidity", value: _country!.humidity.toString());
-     CacheHelper.putData(key: "feelsLike", value: _country!.feelsLike.toString());
-     CacheHelper.putData(key: "temp", value: _country!.temp.toString());
-   }
-}
+    if (_country!.temp - 273.15 > 15 && _country!.temp - 273.15 < 30) {
+      image = "assets/rain.png";
+      return;
+    }
+    if (_country!.temp - 273.15 > 5 && _country!.temp - 273.15 < 15) {
+      image = "assets/snow.png";
+      return;
+    }
+    if (_country!.temp - 273.15 < 5) {
+      image = "assets/thunder.png";
+      return;
+    }
 
-//enum StatusTem { light, rain, snow, thunder }
+    notifyListeners();
+  }
+
+  //List themes = ['orange', "blue", "navyBlue", "purple"];
+  String value = "orange";
+
+  changeValueInDropDownButton(v) {
+    value = v;
+    print(value);
+    notifyListeners();
+    changeAppTheme();
+  }
+
+  ThemeType themeType = ThemeType.orange;
+
+  changeAppTheme() {
+    if (value == "purple") {
+      themeType = ThemeType.purple;
+
+      return;
+    }
+    if (value == "blue") {
+      themeType = ThemeType.blue;
+
+      return;
+    }
+    if (value == "navyBlue") {
+      themeType = ThemeType.navyBlue;
+
+      return;
+    }
+    if (value == "orange") {
+      themeType = ThemeType.orange;
+
+      return;
+    }
+
+    notifyListeners();
+  }
+
+  setData() {}
+}

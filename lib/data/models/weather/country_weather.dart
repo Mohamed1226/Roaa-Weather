@@ -61,6 +61,23 @@ class CountryWeather {
     _lat = json["coord"]["lat"];
     _lon = json["coord"]["lon"];
   }
+
+
+  Map<String,dynamic>  toMap() {
+   return {
+   "name" : _name,
+     "temp":_temp,
+     "wind":_wind,
+     "humidity":_humidity,
+     "pressure":_pressure,
+     "feels_like":_feelsLike,
+     "main":_description,
+     "lat":_lat,
+     "lon":_lon,
+
+   };
+
+  }
 }
 
 CountryWeather initialCountryWeather = CountryWeather(
