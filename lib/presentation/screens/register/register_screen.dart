@@ -9,7 +9,6 @@ import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
 
 import '../weather/weather_screen.dart';
 
-
 class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
@@ -39,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
+                Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
             elevation: 0,
           ),
           body: SingleChildScrollView(
@@ -49,7 +48,6 @@ class SignUpScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     Center(
                       child: Text(
@@ -77,7 +75,7 @@ class SignUpScreen extends StatelessWidget {
                             return "Name can not be empty";
                           } else {}
                         },
-                        prefix:const Icon(Icons.drive_file_rename_outline),
+                        prefix: const Icon(Icons.drive_file_rename_outline),
                         type: TextInputType.text),
                     const SizedBox(
                       height: 15,
@@ -99,10 +97,9 @@ class SignUpScreen extends StatelessWidget {
                             return "Phone Number can not be empty";
                           } else {}
                         },
-                        prefix:const Icon(Icons.phone),
-                        type: TextInputType.text),
-                 const   SizedBox(
-
+                        prefix: const Icon(Icons.phone),
+                        type: TextInputType.number),
+                    const SizedBox(
                       height: 15,
                     ),
                     Text(
@@ -124,9 +121,9 @@ class SignUpScreen extends StatelessWidget {
                             return "Not Correct Email";
                           } else {}
                         },
-                        prefix:const Icon(Icons.event_note),
+                        prefix: const Icon(Icons.event_note),
                         type: TextInputType.emailAddress),
-                const    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Text(
@@ -159,20 +156,19 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       type: TextInputType.number,
                     ),
-                   const  SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-
                     Text(
                       "Confirm Password",
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
-                    const    SizedBox(
+                    const SizedBox(
                       height: 7,
                     ),
                     appTextFormField(
                       controller: confirmPassword,
-                      obsure: false,
+                      obsure: cubit.isVisible,
                       label: "Confirm Your Password",
                       suffix: IconButton(
                         icon: Icon(cubit.isVisible
@@ -188,17 +184,18 @@ class SignUpScreen extends StatelessWidget {
                           return "Password can not be empty";
                         } else if (v.toString().length < 6) {
                           return "Weakly Password";
+                        } else if (v.toString() != password.toString()) {
+                          return "passwords not matches";
                         } else {}
                       },
                       prefix: const Icon(Icons.ac_unit),
                       type: TextInputType.number,
                     ),
-                  const  SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     sectionButtonLogin(state, cubit, context),
-
-                    const    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     sectionSignChosen(context),
@@ -211,35 +208,37 @@ class SignUpScreen extends StatelessWidget {
       },
     );
   }
+
   Widget sectionButtonLogin(state, cubit, BuildContext context) {
     return state is AuthenticationLoadingState
         ? const Center(
-      child: CircularProgressIndicator(),
-    )
+            child: CircularProgressIndicator(),
+          )
         : Center(
-          child: MaterialButton(
-          color: Theme.of(context).buttonColor,
-          minWidth: MediaQuery.of(context).size.width - 50,
-          height: 50,
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              if (_formKey.currentState!.validate()) {
-                cubit.userRegister(
-                    name: name.text,
-                    email: email.text,
-                    password: password.text,
-                    phone: phoneNumber.text);
-              }
-            }
-          },
-          child: Text(
-            "REGISTER",
-            style: Theme.of(context).textTheme.headline1,
-          )),
-        );
+            child: MaterialButton(
+                color: Theme.of(context).buttonColor,
+                minWidth: MediaQuery.of(context).size.width - 50,
+                height: 50,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate()) {
+                      cubit.userRegister(
+                          name: name.text,
+                          email: email.text,
+                          password: password.text,
+                          phone: phoneNumber.text);
+                    }
+                  }
+                },
+                child: Text(
+                  "REGISTER",
+                  style: Theme.of(context).textTheme.headline1,
+                )),
+          );
   }
+
   Widget sectionSignChosen(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

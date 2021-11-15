@@ -28,7 +28,8 @@ class WeatherProvider extends ChangeNotifier {
     var countryWeather = CacheHelper.getData("countryWeather");
     if (countryWeather != null) {
       _country = CountryWeather.fromjson(jsonDecode(countryWeather));
-      print("${_country!.temp}   weather model" );
+      print("${_country!.temp}   weather model");
+      changeImageAccordingTem();
       _hasData = true;
     }
   }
@@ -76,7 +77,7 @@ class WeatherProvider extends ChangeNotifier {
       _country = value;
       changeImageAccordingTem();
       _hasData = true;
-
+       isSearching=false;
       //  print(country.humidity);
       notifyListeners();
     }).catchError((e) {
@@ -109,7 +110,6 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //List themes = ['orange', "blue", "navyBlue", "purple"];
   String value = "orange";
 
   changeValueInDropDownButton(v) {

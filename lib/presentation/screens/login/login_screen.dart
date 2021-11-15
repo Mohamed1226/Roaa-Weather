@@ -19,12 +19,14 @@ class LogInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthenticationState>(
         listener: (context, state) {
-      if (state is AuthenticationErrorState) {
+          var cubit = AuthCubit.get(context);
+
+          if (state is AuthenticationErrorState) {
         appDialog(context, state.error);
       }
 
       if (state is AuthenticationSucceedState) {
-        saveIdThenNavigate(context, state.uId);
+        saveIdThenNavigate(context, state.uId,cubit);
       }
     }, builder: (context, state) {
       var cubit = AuthCubit.get(context);
@@ -261,9 +263,10 @@ class LogInScreen extends StatelessWidget {
     );
   }
 
-  saveIdThenNavigate(BuildContext context, String id) {
-    CacheHelper.putData(key: "uId", value: id);
-
+  saveIdThenNavigate(BuildContext context, String id,cubit) {
+    if( cubit.isRemember) {
+      CacheHelper.putData(key: "uId", value: id);
+    }
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return WeatherScreen();
     }));

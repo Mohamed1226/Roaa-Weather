@@ -30,13 +30,16 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: appInjector.injectProvider(),
         child: Consumer<WeatherProvider>(
-          builder: (context, data, child) => MaterialApp(
-            // theme: lightTheme,
-            //   darkTheme: AppThemeFactory().create(data.themeType),
-            theme: AppThemeFactory().create(data.themeType),
-            debugShowCheckedModeBanner: false,
-            home: SplashView(),
-          ),
+          builder: (context, data, child) {
+            data.checkSavedWeather();
+            return MaterialApp(
+              // theme: lightTheme,
+              //   darkTheme: AppThemeFactory().create(data.themeType),
+              theme: AppThemeFactory().create(data.themeType),
+              debugShowCheckedModeBanner: false,
+              home: SplashView(),
+            );
+          }
         ),
       ),
     );
