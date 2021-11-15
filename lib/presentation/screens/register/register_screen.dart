@@ -216,27 +216,29 @@ class SignUpScreen extends StatelessWidget {
         ? const Center(
       child: CircularProgressIndicator(),
     )
-        : MaterialButton(
-        color: Theme.of(context).buttonColor,
-        minWidth: MediaQuery.of(context).size.width - 50,
-        height: 50,
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
+        : Center(
+          child: MaterialButton(
+          color: Theme.of(context).buttonColor,
+          minWidth: MediaQuery.of(context).size.width - 50,
+          height: 50,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+          onPressed: () {
             if (_formKey.currentState!.validate()) {
-              cubit.userRegister(
-                  name: name.text,
-                  email: email.text,
-                  password: password.text,
-                  phone: phoneNumber.text);
+              if (_formKey.currentState!.validate()) {
+                cubit.userRegister(
+                    name: name.text,
+                    email: email.text,
+                    password: password.text,
+                    phone: phoneNumber.text);
+              }
             }
-          }
-        },
-        child: Text(
-          "REGISTER",
-          style: Theme.of(context).textTheme.headline1,
-        ));
+          },
+          child: Text(
+            "REGISTER",
+            style: Theme.of(context).textTheme.headline1,
+          )),
+        );
   }
   Widget sectionSignChosen(BuildContext context) {
     return Row(

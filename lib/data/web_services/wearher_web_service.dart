@@ -33,8 +33,9 @@ class WeatherWebService {
     var url = weatherApiLocation(lat, log);
     http.Response _response = await http.get(url);
     //print(response.body);
-
-    CacheHelper.putData(key: "countryWeather", value:_response.body );
+    if (_response.statusCode == 200) {
+      CacheHelper.putData(key: "countryWeather", value: _response.body);
+    }
     var _body = jsonDecode(_response.body);
     return _body;
   }
@@ -43,7 +44,9 @@ class WeatherWebService {
     var url = weatherApiCountry(country);
     http.Response _response = await http.get(url);
     //print(response.body);
-    CacheHelper.putData(key: "countryWeather", value:_response.body );
+    if (_response.statusCode == 200) {
+      CacheHelper.putData(key: "countryWeather", value: _response.body);
+    }
 
     var _body = jsonDecode(_response.body);
     return _body;

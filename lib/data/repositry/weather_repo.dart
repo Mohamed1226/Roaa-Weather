@@ -19,7 +19,6 @@ CountryWeather get country => _country;
   Future<CountryWeather> getWeatherByUserLocation( lat, log) async =>
 
       await weatherWebService.getWeatherByUserLocation(lat,log).then((value) {
-        print("222");
         _country = CountryWeather.fromjson(value);
         return _country;
       }).catchError((e) {

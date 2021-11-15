@@ -1,9 +1,10 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:roaa_weather/core/themes.dart';
 import 'package:roaa_weather/presentation/screens/splash/splash_screen.dart';
+import 'package:roaa_weather/presentation/screens/splash_native/splash_native_screen.dart';
 import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
 import 'core/app_theme.dart';
 import 'data/shar_pref.dart';
@@ -15,7 +16,8 @@ void main() async {
 
   await CacheHelper.init();
 
-  runApp(MyApp());
+  runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
+ // runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,9 +30,9 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: appInjector.injectProvider(),
         child: Consumer<WeatherProvider>(
-          builder: (context,data,child)=> MaterialApp(
-           // theme: lightTheme,
-         //   darkTheme: AppThemeFactory().create(data.themeType),
+          builder: (context, data, child) => MaterialApp(
+            // theme: lightTheme,
+            //   darkTheme: AppThemeFactory().create(data.themeType),
             theme: AppThemeFactory().create(data.themeType),
             debugShowCheckedModeBanner: false,
             home: SplashView(),

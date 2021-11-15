@@ -24,10 +24,11 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  CheckSaveddWeather() {
+  checkSavedWeather() {
     var countryWeather = CacheHelper.getData("countryWeather");
     if (countryWeather != null) {
       _country = CountryWeather.fromjson(jsonDecode(countryWeather));
+      print("${_country!.temp}   weather model" );
       _hasData = true;
     }
   }
@@ -145,5 +146,5 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setData() {}
+
 }

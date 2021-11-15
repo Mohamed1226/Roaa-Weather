@@ -8,6 +8,7 @@ import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart
 import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
 import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
+import 'package:roaa_weather/presentation/widget/info_widget.dart';
 
 class LogInScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
@@ -45,9 +46,9 @@ class LogInScreen extends StatelessWidget {
                   Column(
                     children: [
                       sectionTextFieldsLogin(context, cubit),
-                      sectionCheckRemember(cubit,context),
+                      sectionCheckRemember(cubit, context),
                       sectionButtonLogin(state, cubit, context),
-                      sectionSignInWithFaceAndGoogle(cubit,context)
+                      sectionSignInWithFaceAndGoogle(cubit, context)
                     ],
                   ),
                   const SizedBox(
@@ -148,12 +149,14 @@ class LogInScreen extends StatelessWidget {
     );
   }
 
-  Widget sectionCheckRemember(cubit,BuildContext context) {
+  Widget sectionCheckRemember(cubit, BuildContext context) {
     return Row(
       children: [
-        Checkbox(value: cubit.isRemember, onChanged: (v) {
-                    cubit.isRemembered(v);
-        }),
+        Checkbox(
+            value: cubit.isRemember,
+            onChanged: (v) {
+              cubit.isRemembered(v);
+            }),
         Text(
           "Remember Me",
           style: Theme.of(context).textTheme.bodyText2,
@@ -184,7 +187,7 @@ class LogInScreen extends StatelessWidget {
             ));
   }
 
-  Widget sectionSignInWithFaceAndGoogle(cubit,BuildContext context) {
+  Widget sectionSignInWithFaceAndGoogle(cubit, BuildContext context) {
     return Column(
       children: [
         const SizedBox(
@@ -209,7 +212,6 @@ class LogInScreen extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-
                 cubit.loginWithFacebook();
               },
               child: Image.asset(

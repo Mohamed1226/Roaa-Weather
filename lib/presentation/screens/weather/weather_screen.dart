@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/app_theme.dart';
+import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
 import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
 import 'package:roaa_weather/presentation/widget/app_card.dart';
 
@@ -15,31 +18,41 @@ class WeatherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var weatherViewModel = Provider.of<WeatherProvider>(context);
 
-    return Scaffold(
-      appBar: _appBar(context, weatherViewModel),
-      backgroundColor: Theme.of(context).primaryColor,
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 50),
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
+    return  Scaffold(
+        drawer: Drawer(child: Container(
+          child: ElevatedButton(onPressed: (){
+            FirebaseAuth.instance.signOut();
+            CacheHelper.putData(key: "uId", value: "");
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LogInScreen()));
+          },child: Text("Sign Out"),),
+        ),),
+        appBar: _appBar(context, weatherViewModel),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    weatherViewModel.hasData
-                        ? _modelHasData(weatherViewModel, context)
-                        : _modelNotHasData(weatherViewModel, context),
+                    Column(
+                      children: [
+                        weatherViewModel.hasData
+                            ? _modelHasData(weatherViewModel, context)
+                            : _modelNotHasData(weatherViewModel, context),
+                      ],
+                    ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
+     
     );
   }
 
@@ -78,50 +91,53 @@ class WeatherScreen extends StatelessWidget {
                   Icons.search,
                   color: Theme.of(context).iconTheme.color,
                 ))
-            : Container(
-                height: 30,
-                width: MediaQuery.of(context).size.width - 100,
-                child: TextFormField(
-                    cursorColor: Colors.white,
-                    controller: countryController,
-                    validator: (v) {
-                      if (v.toString().isEmpty) {
-                        return "Search can not be empty";
-                      } else {}
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.deepOrange),
-                          borderRadius: BorderRadius.circular(20)),
-                      focusColor: Colors.white,
-                      labelText: "Search For Your Country Weather",
-                      labelStyle: Theme.of(context).textTheme.bodyText2,
-                      suffix: IconButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            weatherViewModel.getWeatherByCountryName(
-                                context, countryController.text);
+            : Expanded(
+              child: Container(
+                  height: 30,
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: TextFormField(
+                      cursorColor: Colors.white,
+                      controller: countryController,
+                      validator: (v) {
+                        if (v.toString().isEmpty) {
+                          return "Search can not be empty";
+                        } else {}
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.deepOrange),
+                            borderRadius: BorderRadius.circular(20)),
+                        focusColor: Colors.white,
+                        labelText: "Search For Your Country Weather",
+                        labelStyle: Theme.of(context).textTheme.bodyText2,
 
-                            countryController.clear();
-                            //   provider.getAllCountries();
-                          }
-                        },
-                        icon: Icon(
-                          Icons.search,
-                          color: Theme.of(context).iconTheme.color,
+                        suffix: IconButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              weatherViewModel.getWeatherByCountryName(
+                                  context, countryController.text);
+                                     weatherViewModel.checkSavedWeather();
+                              countryController.clear();
+                              //   provider.getAllCountries();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.search,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
                         ),
                       ),
-                    ),
-                    onFieldSubmitted: (v) {
-                      if (formKey.currentState!.validate()) {
-                        weatherViewModel.getWeatherByCountryName(
-                            context, countryController.text);
-                        countryController.clear();
-                      }
-                    },
-                    keyboardType: TextInputType.emailAddress),
-              ),
+                      onFieldSubmitted: (v) {
+                        if (formKey.currentState!.validate()) {
+                          weatherViewModel.getWeatherByCountryName(
+                              context, countryController.text);
+                          countryController.clear();
+                        }
+                      },
+                      keyboardType: TextInputType.emailAddress),
+                ),
+            ),
       ],
     );
   }
@@ -221,7 +237,9 @@ class WeatherScreen extends StatelessWidget {
         children: [
           Center(
             child: Text(
+
               "Search For Your Country Weather ",
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ),

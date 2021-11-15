@@ -57,7 +57,15 @@ class _SplashViewState extends State<SplashView>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+         const   Text(
+              "Splash Screen From Flutter",
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
             AnimatedBuilder(
+
               animation: fadingAnimation!,
               builder: (context, _) => Opacity(
                 opacity: fadingAnimation?.value,
