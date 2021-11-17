@@ -17,7 +17,7 @@ void main() async {
   await CacheHelper.init();
 
   runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
- // runApp( MyApp());
+  // runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,17 +30,15 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: appInjector.injectProvider(),
         child: Consumer<WeatherProvider>(
-          builder: (context, data, child) {
-            data.checkSavedWeather();
-            return MaterialApp(
-              // theme: lightTheme,
-              //   darkTheme: AppThemeFactory().create(data.themeType),
-              theme: AppThemeFactory().create(data.themeType),
-              debugShowCheckedModeBanner: false,
-              home: SplashView(),
-            );
-          }
-        ),
+            builder: (context, weatherProvider, child) {
+          return MaterialApp(
+            // theme: lightTheme,
+            //   darkTheme: AppThemeFactory().create(data.themeType),
+            theme: AppThemeFactory().create(weatherProvider.themeType),
+            debugShowCheckedModeBanner: false,
+            home: const SplashView(),
+          );
+        }),
       ),
     );
   }

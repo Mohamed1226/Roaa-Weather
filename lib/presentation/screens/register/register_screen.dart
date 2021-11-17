@@ -10,7 +10,7 @@ import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
 import '../weather/weather_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+ static final _formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
@@ -184,7 +184,7 @@ class SignUpScreen extends StatelessWidget {
                           return "Password can not be empty";
                         } else if (v.toString().length < 6) {
                           return "Weakly Password";
-                        } else if (v.toString() != password.toString()) {
+                        } else if (confirmPassword.text != password.text) {
                           return "passwords not matches";
                         } else {}
                       },

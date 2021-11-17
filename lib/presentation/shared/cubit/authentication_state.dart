@@ -3,6 +3,8 @@ class AuthenticationState {}
 class AuthenticationInitState extends AuthenticationState {}
 
 class AuthenticationLoadingState extends AuthenticationState {}
+class AuthenticationNoLoadingState extends AuthenticationState {}
+
 
 class AuthenticationSucceedState extends AuthenticationState {
   final String uId;

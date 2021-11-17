@@ -8,30 +8,22 @@ import 'package:roaa_weather/data/models/weather/country_weather.dart';
 import 'package:roaa_weather/data/repositry/weather_repo.dart';
 
 import 'package:roaa_weather/data/shar_pref.dart';
-import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 
 class WeatherProvider extends ChangeNotifier {
   final WeatherRepo weatherRepo;
 
-  WeatherProvider(this.weatherRepo);
-
-  //geolator
-  void getCurrentLocation(BuildContext context) async {
-    var position = await LocationRetriever().retrieve();
-    //  print(position.longitude);
-    getWeatherByUserLocation(context, position.latitude, position.longitude);
-
-    notifyListeners();
+  WeatherProvider(this.weatherRepo){
+    checkSavedWeatherANdTheme();
   }
 
-  checkSavedWeather() {
-    var countryWeather = CacheHelper.getData("countryWeather");
-    if (countryWeather != null) {
-      _country = CountryWeather.fromjson(jsonDecode(countryWeather));
-      print("${_country!.temp}   weather model");
-      changeImageAccordingTem();
-      _hasData = true;
+  checkSavedWeatherANdTheme() {
+    var theme = CacheHelper.getData("theme");
+    if (theme != null) {
+      //    print("saved $theme");
+      changeAppTheme(theme);
     }
+
+
   }
 
   //show textFormField
@@ -42,7 +34,6 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //get weather by country
   CountryWeather? _country;
 
   CountryWeather? get country => _country;
@@ -53,20 +44,19 @@ class WeatherProvider extends ChangeNotifier {
 
   //get weather by location
 
-  getWeatherByUserLocation(BuildContext context, lat, log) async {
-    //print("Lllll $lat");
-    weatherRepo.getWeatherByUserLocation(lat, log).then((value) {
+  getWeatherByUserLocation() async {
+
+    weatherRepo
+        .getWeatherByUserLocation()
+        .then((value) {
       _country = value;
-      print(_country);
+      //  print(_country);
       changeImageAccordingTem();
 
       _hasData = true;
 
       //  print(country.humidity);
       notifyListeners();
-    }).catchError((e) {
-      appDialog(context, "Please give GBS permission");
-      // print("${e.toString()} ;;;;");
     });
   }
 
@@ -77,13 +67,14 @@ class WeatherProvider extends ChangeNotifier {
       _country = value;
       changeImageAccordingTem();
       _hasData = true;
-       isSearching=false;
+      isSearching = false;
       //  print(country.humidity);
       notifyListeners();
-    }).catchError((e) {
-      appDialog(context, "Please Input a Correct Name");
-      //   print("${e.toString()} ;;;;");
     });
+    //.catchError((e) {
+    //   appDialog(context, "Please Input a Correct Name");
+    //   print("${e.toString()} ;;;;");
+    //});
   }
 
   //change image according temperature
@@ -110,21 +101,23 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//change valued in DropDownButton
   String value = "orange";
 
   changeValueInDropDownButton(v) {
     value = v;
-    print(value);
+    //  print(value);
     notifyListeners();
-    changeAppTheme();
+    savedTheme();
+    changeAppTheme(value);
   }
 
+//change app theme
   ThemeType themeType = ThemeType.orange;
 
-  changeAppTheme() {
+  changeAppTheme(String value) {
     if (value == "purple") {
       themeType = ThemeType.purple;
-
       return;
     }
     if (value == "blue") {
@@ -143,8 +136,10 @@ class WeatherProvider extends ChangeNotifier {
       return;
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-
+  savedTheme() {
+    CacheHelper.putData(key: "theme", value: value);
+  }
 }

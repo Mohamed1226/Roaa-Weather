@@ -8,51 +8,57 @@ import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart'
 import 'package:roaa_weather/presentation/widget/app_card.dart';
 
 class WeatherScreen extends StatelessWidget {
-  // WeatherScreen(){
-  //   AppInjector().weatherViewModel.getCurrentLocation();
-  // }
+
   TextEditingController countryController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
+  // var weatherViewModel = Provider.of<WeatherProvider>(context);
+
 
   @override
   Widget build(BuildContext context) {
     var weatherViewModel = Provider.of<WeatherProvider>(context);
-
-    return  Scaffold(
-        drawer: Drawer(child: Container(
-          child: ElevatedButton(onPressed: (){
-            FirebaseAuth.instance.signOut();
-            CacheHelper.putData(key: "uId", value: "");
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LogInScreen()));
-          },child: Text("Sign Out"),),
-        ),),
-        appBar: _appBar(context, weatherViewModel),
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 50),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        weatherViewModel.hasData
-                            ? _modelHasData(weatherViewModel, context)
-                            : _modelNotHasData(weatherViewModel, context),
-                      ],
-                    ),
-                  ],
-                ),
+    return Scaffold(
+      drawer: Drawer(
+        child: Container(
+          child: ElevatedButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              CacheHelper.putData(key: "uId", value: "");
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => LogInScreen()));
+            },
+            child: Text("Sign Out"),
+          ),
+        ),
+      ),
+      appBar: _appBar(context, weatherViewModel),
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 50),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      weatherViewModel.hasData
+                          ? _modelHasData(weatherViewModel, context)
+                          : _modelNotHasData(weatherViewModel, context),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
-     
+      ),
     );
   }
 
@@ -68,7 +74,7 @@ class WeatherScreen extends StatelessWidget {
       // backgroundColor: Theme.of(context).,
       actions: [
         DropdownButton(
-         //   value: weatherViewModel.value,
+            //  value: weatherViewModel.value,
             onChanged: (v) {
               weatherViewModel.changeValueInDropDownButton(v);
             },
@@ -92,7 +98,7 @@ class WeatherScreen extends StatelessWidget {
                   color: Theme.of(context).iconTheme.color,
                 ))
             : Expanded(
-              child: Container(
+                child: Container(
                   height: 30,
                   width: MediaQuery.of(context).size.width - 100,
                   child: TextFormField(
@@ -111,13 +117,12 @@ class WeatherScreen extends StatelessWidget {
                         focusColor: Colors.white,
                         labelText: "Search For Your Country Weather",
                         labelStyle: Theme.of(context).textTheme.bodyText2,
-
                         suffix: IconButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               weatherViewModel.getWeatherByCountryName(
                                   context, countryController.text);
-                                     weatherViewModel.checkSavedWeather();
+                              weatherViewModel.checkSavedWeather();
                               countryController.clear();
                               //   provider.getAllCountries();
                             }
@@ -137,7 +142,7 @@ class WeatherScreen extends StatelessWidget {
                       },
                       keyboardType: TextInputType.emailAddress),
                 ),
-            ),
+              ),
       ],
     );
   }
@@ -224,8 +229,7 @@ class WeatherScreen extends StatelessWidget {
           appCard(context, "Pressure", model.country.pressure.toString()),
           appCard(context, "FeelsLike",
               "${(model.country!.feelsLike - 273.15).toInt()}°C"),
-          appCard(
-              context, "Humidity", "${model.country.humidity.toString()}%"),
+          appCard(context, "Humidity", "${model.country.humidity.toString()}%"),
         ],
       ),
     );
@@ -237,7 +241,6 @@ class WeatherScreen extends StatelessWidget {
         children: [
           Center(
             child: Text(
-
               "Search For Your Country Weather ",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1,
@@ -249,7 +252,7 @@ class WeatherScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              model.getCurrentLocation(context);
+              model.getWeatherByUserLocation();
             },
             child: Text(
               "Open GPS",

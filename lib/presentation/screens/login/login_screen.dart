@@ -8,10 +8,9 @@ import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart
 import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
 import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
-import 'package:roaa_weather/presentation/widget/info_widget.dart';
 
 class LogInScreen extends StatelessWidget {
-  final formKey = GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
 
@@ -19,14 +18,14 @@ class LogInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthenticationState>(
         listener: (context, state) {
-          var cubit = AuthCubit.get(context);
+      var cubit = AuthCubit.get(context);
 
-          if (state is AuthenticationErrorState) {
+      if (state is AuthenticationErrorState) {
         appDialog(context, state.error);
       }
 
       if (state is AuthenticationSucceedState) {
-        saveIdThenNavigate(context, state.uId,cubit);
+        saveIdThenNavigate(context, state.uId, cubit);
       }
     }, builder: (context, state) {
       var cubit = AuthCubit.get(context);
@@ -263,8 +262,8 @@ class LogInScreen extends StatelessWidget {
     );
   }
 
-  saveIdThenNavigate(BuildContext context, String id,cubit) {
-    if( cubit.isRemember) {
+  saveIdThenNavigate(BuildContext context, String id, cubit) {
+    if (cubit.isRemember) {
       CacheHelper.putData(key: "uId", value: id);
     }
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

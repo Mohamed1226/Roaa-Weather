@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:roaa_weather/core/app_config.dart';
 import 'package:roaa_weather/data/apis/weather_api.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
 
-class WeatherWebService {
+class RemoteWeatherDataSource {
 // late Dio dio;
 //   WeatherWebService(){
 //     BaseOptions baseOptions =BaseOptions(
@@ -28,27 +29,39 @@ class WeatherWebService {
 //   var _body = jsonDecode(_response.body);
 //   return _body;
 // }
-
+@override
   Future getWeatherByUserLocation(lat, log) async {
-    var url = weatherApiLocation(lat, log);
-    http.Response _response = await http.get(url);
-    //print(response.body);
-    if (_response.statusCode == 200) {
-      CacheHelper.putData(key: "countryWeather", value: _response.body);
+    try {
+      var url = weatherApiLocation(lat, log);
+      http.Response _response = await http.get(url);
+      //print(response.body);
+      if (_response.statusCode == 200) {
+        CacheHelper.putData(key: "countryWeather", value: _response.body);
+      }
+      var _body = jsonDecode(_response.body);
+      return _body;
+    } catch (e) {
+      rethrow;
     }
-    var _body = jsonDecode(_response.body);
-    return _body;
   }
-
+@override
   Future getWeatherByCountryName(String country) async {
-    var url = weatherApiCountry(country);
-    http.Response _response = await http.get(url);
-    //print(response.body);
-    if (_response.statusCode == 200) {
-      CacheHelper.putData(key: "countryWeather", value: _response.body);
-    }
+    try {
+      var url = weatherApiCountry(country);
+      http.Response _response = await http.get(url);
+      //print(response.body);
+      if (_response.statusCode == 200) {
+        CacheHelper.putData(key: "countryWeather", value: _response.body);
+      }
 
-    var _body = jsonDecode(_response.body);
-    return _body;
+      var _body = jsonDecode(_response.body);
+      return _body;
+    } on SocketException catch (_) {
+      print("Not connected ");
+      rethrow;
+
+    }catch (e) {
+      rethrow;
+    }
   }
 }
