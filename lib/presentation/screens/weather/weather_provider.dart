@@ -12,8 +12,9 @@ import 'package:roaa_weather/data/shar_pref.dart';
 class WeatherProvider extends ChangeNotifier {
   final WeatherRepo weatherRepo;
 
-  WeatherProvider(this.weatherRepo){
+  WeatherProvider(this.weatherRepo) {
     checkSavedWeatherANdTheme();
+    getWeatherByUserLocation();
   }
 
   checkSavedWeatherANdTheme() {
@@ -22,8 +23,6 @@ class WeatherProvider extends ChangeNotifier {
       //    print("saved $theme");
       changeAppTheme(theme);
     }
-
-
   }
 
   //show textFormField
@@ -45,10 +44,7 @@ class WeatherProvider extends ChangeNotifier {
   //get weather by location
 
   getWeatherByUserLocation() async {
-
-    weatherRepo
-        .getWeatherByUserLocation()
-        .then((value) {
+    weatherRepo.getWeatherByUserLocation().then((value) {
       _country = value;
       //  print(_country);
       changeImageAccordingTem();
@@ -60,7 +56,7 @@ class WeatherProvider extends ChangeNotifier {
     });
   }
 
-  //get weather by country
+  //get weather by country name
 
   getWeatherByCountryName(BuildContext context, String countryName) async {
     weatherRepo.getWeatherByCountryName(countryName).then((value) {
@@ -113,7 +109,7 @@ class WeatherProvider extends ChangeNotifier {
   }
 
 //change app theme
-  ThemeType themeType = ThemeType.orange;
+  ThemeType themeType = ThemeType.navyBlue;
 
   changeAppTheme(String value) {
     if (value == "purple") {

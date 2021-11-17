@@ -10,7 +10,7 @@ import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
 import '../weather/weather_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
- static final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
