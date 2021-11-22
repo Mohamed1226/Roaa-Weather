@@ -21,11 +21,11 @@ class WeatherRepo {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print("connected ");
+       // print("connected ");
         return true;
       }
     } on SocketException catch (_) {
-      print("Not connected ");
+   //   print("Not connected ");
       return false;
     }
     return false;
@@ -44,8 +44,8 @@ class WeatherRepo {
         _country = CountryWeather.fromjson(value);
         return _country;
       }).catchError((e) {
-        // print(e.toString());
-        // print("error");
+        print(e.toString());
+        print("error");
         appToast("please input a correct country name");
       });
     }
@@ -55,7 +55,6 @@ class WeatherRepo {
       if (result != null) {
         _country = result;
         appToast("Last Saved Weather Open Internet to Refresh");
-
       } else {
         appToast("No Internet Connection");
       }
@@ -74,10 +73,25 @@ class WeatherRepo {
       return await remoteWeatherDataSource
           .getWeatherByUserLocation(position.latitude, position.longitude)
           .then((value) {
+        print("i am in then");
         _country = CountryWeather.fromjson(value);
         return _country;
       }).catchError((e) {
-        appToast("please open GBS");
+        print("i am in catchError");
+
+        print(e.toString());
+        print("error");
+        if (e.runtimeType is HttpException) {
+          print("i am in HttpException");
+
+          appToast("Server Not Found");
+        } else if (e.runtimeType is FormatException) {
+          print("i am in HttpException");
+
+          appToast("some thing wrong happened");
+        } else {
+          appToast("please open GBS");
+        }
       });
     }
     if (!isConnected) {
@@ -86,7 +100,6 @@ class WeatherRepo {
       if (result != null) {
         _country = result;
         appToast("The Last Saved Weather Open Internet");
-
       } else {
         appToast("No Internet Connection");
       }

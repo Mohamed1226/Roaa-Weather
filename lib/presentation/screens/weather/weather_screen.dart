@@ -3,18 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/app_theme.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/generated/l10n.dart';
 import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
 import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
 import 'package:roaa_weather/presentation/widget/app_card.dart';
 
 class WeatherScreen extends StatelessWidget {
-
   TextEditingController countryController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-
-  // var weatherViewModel = Provider.of<WeatherProvider>(context);
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +19,46 @@ class WeatherScreen extends StatelessWidget {
     return Scaffold(
       drawer: Drawer(
         child: Container(
-          child: ElevatedButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              CacheHelper.putData(key: "uId", value: "");
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LogInScreen()));
-            },
-            child: Text("Sign Out"),
+          color: Theme.of(context).primaryColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        radius: 60,
+                        child: Image.asset(
+                          "assets/thunder.png",
+                          fit: BoxFit.cover,
+                        )),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  weatherViewModel.getWeatherByUserLocation();
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  S.of(context).Open_GPS,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  CacheHelper.putData(key: "uId", value: "");
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LogInScreen()));
+                },
+                child: Text(S.of(context).Sign_Out),
+              ),
+            ],
           ),
         ),
       ),
@@ -43,11 +72,25 @@ class WeatherScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 50),
               width: MediaQuery.of(context).size.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             //   crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  if (!weatherViewModel.isConnected)
+                     Text(
+                      S.of(context).check_internet,
+                      style:const TextStyle(
+                          color: Colors.green,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  if (!weatherViewModel.isConnected)
+                    const SizedBox(
+                      height: 6,
+                    ),
                   Column(
                     children: [
+
                       weatherViewModel.hasData
                           ? _modelHasData(weatherViewModel, context)
                           : _modelNotHasData(weatherViewModel, context),
@@ -67,7 +110,7 @@ class WeatherScreen extends StatelessWidget {
   _appBar(BuildContext context, weatherViewModel) {
     return AppBar(
       title: Text(
-        "Flutter Weather",
+        S.of(context).Flutter_Weather,
         style: Theme.of(context).textTheme.headline2,
       ),
       backgroundColor: Theme.of(context).appBarTheme.color,
@@ -106,7 +149,7 @@ class WeatherScreen extends StatelessWidget {
                       controller: countryController,
                       validator: (v) {
                         if (v.toString().isEmpty) {
-                          return "Search can not be empty";
+                          return S.of(context).Search_can_not_be_empty;
                         } else {}
                       },
                       decoration: InputDecoration(
@@ -115,7 +158,7 @@ class WeatherScreen extends StatelessWidget {
                                 const BorderSide(color: Colors.deepOrange),
                             borderRadius: BorderRadius.circular(20)),
                         focusColor: Colors.white,
-                        labelText: "Search For Your Country Weather",
+                        labelText:S.of(context).search_country,
                         labelStyle: Theme.of(context).textTheme.bodyText2,
                         suffix: IconButton(
                           onPressed: () {
@@ -196,7 +239,7 @@ class WeatherScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  "Feels Like ${(model.country!.feelsLike - 273.15).toInt()}°C",
+                  "${S.of(context).FeelsLike} ${(model.country!.feelsLike - 273.15).toInt()}°C",
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],
@@ -225,11 +268,11 @@ class WeatherScreen extends StatelessWidget {
         childAspectRatio: (3 / 2),
         crossAxisCount: 2,
         children: [
-          appCard(context, "Wind", "${model.country.wind.toString()}m/s"),
-          appCard(context, "Pressure", model.country.pressure.toString()),
-          appCard(context, "FeelsLike",
+          appCard(context, S.of(context).Wind, "${model.country.wind.toString()}m/s"),
+          appCard(context,S.of(context).Pressure, model.country.pressure.toString()),
+          appCard(context, S.of(context).FeelsLike,
               "${(model.country!.feelsLike - 273.15).toInt()}°C"),
-          appCard(context, "Humidity", "${model.country.humidity.toString()}%"),
+          appCard(context, S.of(context).Humidity, "${model.country.humidity.toString()}%"),
         ],
       ),
     );
@@ -241,13 +284,13 @@ class WeatherScreen extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              "Search For Your Country Weather ",
+              S.of(context).search_country,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ),
           Text(
-            "--OR--",
+           S.of(context).OR,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           ElevatedButton(
@@ -255,7 +298,7 @@ class WeatherScreen extends StatelessWidget {
               model.getWeatherByUserLocation();
             },
             child: Text(
-              "Open GPS",
+             S.of(context).Open_GPS,
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ),

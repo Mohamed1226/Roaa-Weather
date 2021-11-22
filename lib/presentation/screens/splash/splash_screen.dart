@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/app_route.dart';
+import 'package:roaa_weather/generated/l10n.dart';
+import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -57,9 +60,9 @@ class _SplashViewState extends State<SplashView>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-         const   Text(
-              "Splash Screen From Flutter",
-              style: TextStyle(
+            Text(
+              S.of(context).Splash_Screen_From_Flutter,
+              style:const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
@@ -69,9 +72,9 @@ class _SplashViewState extends State<SplashView>
               animation: fadingAnimation!,
               builder: (context, _) => Opacity(
                 opacity: fadingAnimation?.value,
-                child: const Text(
-                  "Roaa Weather App",
-                  style: TextStyle(
+                child:  Text(
+                 S.of(context).Roaa_Weather_App,
+                  style:const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),

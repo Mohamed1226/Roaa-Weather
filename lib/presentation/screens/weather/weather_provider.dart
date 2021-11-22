@@ -10,19 +10,38 @@ import 'package:roaa_weather/data/repositry/weather_repo.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
 
 class WeatherProvider extends ChangeNotifier {
+
+//   Locale? _userLocale;
+// getLang(BuildContext context){
+//   final newLocale = Localizations.localeOf(context);
+//
+//   if (newLocale != _userLocale) {
+//     _userLocale = newLocale;
+//   }
+// }
+
+
   final WeatherRepo weatherRepo;
 
   WeatherProvider(this.weatherRepo) {
-    checkSavedWeatherANdTheme();
+    checkSavedTheme();
     getWeatherByUserLocation();
+      checkConnectionInternet();
   }
 
-  checkSavedWeatherANdTheme() {
+  checkSavedTheme() {
     var theme = CacheHelper.getData("theme");
     if (theme != null) {
-      //    print("saved $theme");
+
       changeAppTheme(theme);
     }
+  }
+
+  bool isConnected = true;
+
+  checkConnectionInternet() async {
+    isConnected = await weatherRepo.checkConnectionWithInternet();
+    notifyListeners();
   }
 
   //show textFormField
@@ -50,7 +69,7 @@ class WeatherProvider extends ChangeNotifier {
       changeImageAccordingTem();
 
       _hasData = true;
-
+      print("i am in changeImageAccordingTem");
       //  print(country.humidity);
       notifyListeners();
     });
@@ -109,7 +128,7 @@ class WeatherProvider extends ChangeNotifier {
   }
 
 //change app theme
-  ThemeType themeType = ThemeType.navyBlue;
+  ThemeType themeType = ThemeType.orange;
 
   changeAppTheme(String value) {
     if (value == "purple") {

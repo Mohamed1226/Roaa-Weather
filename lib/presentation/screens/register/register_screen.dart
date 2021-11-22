@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/generated/l10n.dart';
 import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
 import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
-
 import '../weather/weather_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -36,9 +36,10 @@ class SignUpScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AuthCubit.get(context);
         return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
           appBar: AppBar(
             backgroundColor:
-                Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
+                Theme.of(context).primaryColor.withOpacity(0.1),
             elevation: 0,
           ),
           body: SingleChildScrollView(
@@ -51,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        "Sign UP",
+                       S.of(context).Sign_up,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ),
@@ -59,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Name",
+                      S.of(context).name,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -68,11 +69,11 @@ class SignUpScreen extends StatelessWidget {
                     appTextFormField(
                         controller: name,
                         obsure: false,
-                        label: "Your Name",
+                        label: S.of(context).enter_your_name,
                         onSaved: (v) {},
                         validate: (v) {
                           if (v.toString().isEmpty) {
-                            return "Name can not be empty";
+                            return S.of(context).name_can_not_be_empty;
                           } else {}
                         },
                         prefix: const Icon(Icons.drive_file_rename_outline),
@@ -81,7 +82,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Phone NM",
+                    S.of(context).phone  ,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -90,11 +91,11 @@ class SignUpScreen extends StatelessWidget {
                     appTextFormField(
                         controller: phoneNumber,
                         obsure: false,
-                        label: "Your Phone Number",
+                        label: S.of(context).enter_your_phone,
                         onSaved: (v) {},
                         validate: (v) {
                           if (v.toString().isEmpty) {
-                            return "Phone Number can not be empty";
+                            return S.of(context).phone_can_not_be_empty;
                           } else {}
                         },
                         prefix: const Icon(Icons.phone),
@@ -103,7 +104,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Email",
+                      S.of(context).email,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -112,13 +113,13 @@ class SignUpScreen extends StatelessWidget {
                     appTextFormField(
                         controller: email,
                         obsure: false,
-                        label: "Your Email",
+                        label: S.of(context).enter_your_email,
                         onSaved: (v) {},
                         validate: (v) {
                           if (v.toString().isEmpty) {
-                            return "email can not be empty";
+                            return S.of(context).email_can_not_be_empty;
                           } else if (!v.toString().contains("@")) {
-                            return "Not Correct Email";
+                            return S.of(context).Not_Correct_Email;
                           } else {}
                         },
                         prefix: const Icon(Icons.event_note),
@@ -127,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Password",
+                     S.of(context).password,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -136,13 +137,13 @@ class SignUpScreen extends StatelessWidget {
                     appTextFormField(
                       controller: password,
                       obsure: cubit.isVisible,
-                      label: "Your Password",
+                      label: S.of(context).Enter_Your_Password,
                       onSaved: (v) {},
                       validate: (v) {
                         if (v.toString().isEmpty) {
-                          return "Password can not be empty";
+                          return S.of(context).Password_can_not_be_empty;
                         } else if (v.toString().length < 6) {
-                          return "Not Strong Password";
+                          return S.of(context).Not_Strong_Password;
                         } else {}
                       },
                       prefix: Icon(Icons.ac_unit),
@@ -160,7 +161,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Confirm Password",
+                      S.of(context).Confirm_Password,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -169,7 +170,7 @@ class SignUpScreen extends StatelessWidget {
                     appTextFormField(
                       controller: confirmPassword,
                       obsure: cubit.isVisible,
-                      label: "Confirm Your Password",
+                      label: S.of(context).Confirm_Your_Password,
                       suffix: IconButton(
                         icon: Icon(cubit.isVisible
                             ? Icons.visibility
@@ -181,11 +182,11 @@ class SignUpScreen extends StatelessWidget {
                       onSaved: (v) {},
                       validate: (v) {
                         if (v.toString().isEmpty) {
-                          return "Password can not be empty";
+                          return S.of(context).Password_can_not_be_empty;
                         } else if (v.toString().length < 6) {
-                          return "Weakly Password";
+                          return S.of(context).Not_Strong_Password;
                         } else if (confirmPassword.text != password.text) {
-                          return "passwords not matches";
+                          return S.of(context).passwords_not_matches;
                         } else {}
                       },
                       prefix: const Icon(Icons.ac_unit),
@@ -233,7 +234,7 @@ class SignUpScreen extends StatelessWidget {
                   }
                 },
                 child: Text(
-                  "REGISTER",
+                  S.of(context).REGISTER,
                   style: Theme.of(context).textTheme.headline1,
                 )),
           );
@@ -244,7 +245,7 @@ class SignUpScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Have an Account?",
+        S.of(context).have_account,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         GestureDetector(
@@ -252,7 +253,7 @@ class SignUpScreen extends StatelessWidget {
             navigateToSignUp(context);
           },
           child: Text(
-            "Sign in",
+           S.of(context).LOGIN,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
@@ -269,7 +270,6 @@ class SignUpScreen extends StatelessWidget {
   }
 
   navigateToSignUp(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LogInScreen()));
+    Navigator.of(context).pop();
   }
 }

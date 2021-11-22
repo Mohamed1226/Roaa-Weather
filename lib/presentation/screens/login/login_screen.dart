@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/generated/l10n.dart';
 import 'package:roaa_weather/presentation/screens/weather/weather_screen.dart';
 import 'package:roaa_weather/presentation/screens/register/register_screen.dart';
 import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
@@ -9,10 +9,21 @@ import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart
 import 'package:roaa_weather/presentation/widget/app_dialog.dart';
 import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
 
-class LogInScreen extends StatelessWidget {
-  static final formKey = GlobalKey<FormState>();
+class LogInScreen extends StatefulWidget {
+  @override
+  State<LogInScreen> createState() => _LogInScreenState();
+}
+
+class _LogInScreenState extends State<LogInScreen> {
   final TextEditingController email = TextEditingController();
+
   final TextEditingController password = TextEditingController();
+
+ // String selectedLang = "en";
+
+  static final formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +41,31 @@ class LogInScreen extends StatelessWidget {
     }, builder: (context, state) {
       var cubit = AuthCubit.get(context);
       return Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).primaryColor,
         appBar: AppBar(
           backgroundColor:
-              Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
+              Theme.of(context).primaryColor.withOpacity(0.1),
           elevation: 0,
           leading: Text(""),
+          // title: DropdownButton(
+          //   value: selectedLang,
+          //   onChanged: (value) {
+          //     // setState(() {
+          //     //   selectedLang = value.toString();
+          //     // });
+          //     // Get.updateLocale(Locale(selectedLang));
+          //   },
+          //   items: const [
+          //     DropdownMenuItem(
+          //       child: Text("en"),
+          //       value: "en",
+          //     ),
+          //     DropdownMenuItem(
+          //       child: Text("ar"),
+          //       value: "ar",
+          //     ),
+          //   ],
+          // ),
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -71,7 +101,7 @@ class LogInScreen extends StatelessWidget {
       children: [
         Center(
           child: Text(
-            "Sign In",
+            S.of(context).login,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
@@ -79,7 +109,7 @@ class LogInScreen extends StatelessWidget {
           height: 30,
         ),
         Text(
-          "Email",
+          S.of(context).email,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         const SizedBox(
@@ -88,13 +118,13 @@ class LogInScreen extends StatelessWidget {
         appTextFormField(
             controller: email,
             obsure: false,
-            label: "Enter Your Name",
+            label: S.of(context).enter_your_email,
             onSaved: (v) {},
             validate: (v) {
               if (v.toString().isEmpty) {
-                return "email can not be empty";
+                return S.of(context).email_can_not_be_empty;
               } else if (!v.toString().contains("@")) {
-                return "Not Correct Email";
+                return S.of(context).Not_Correct_Email;
               } else {}
             },
             prefix: const Icon(Icons.event_note),
@@ -103,7 +133,7 @@ class LogInScreen extends StatelessWidget {
           height: 30,
         ),
         Text(
-          "Password",
+          S.of(context).password,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         const SizedBox(
@@ -112,13 +142,13 @@ class LogInScreen extends StatelessWidget {
         appTextFormField(
           controller: password,
           obsure: cubit.isVisible,
-          label: "Enter Your Password",
+          label: S.of(context).Enter_Your_Password,
           onSaved: (v) {},
           validate: (v) {
             if (v.toString().isEmpty) {
-              return "Password can not be empty";
+              return S.of(context).Password_can_not_be_empty;
             } else if (v.toString().length < 6) {
-              return "Not Strong Password";
+              return S.of(context).Not_Strong_Password;
             } else {}
           },
           prefix: const Icon(Icons.ac_unit),
@@ -138,7 +168,7 @@ class LogInScreen extends StatelessWidget {
           children: [
             const Spacer(),
             Text(
-              "Forget Password",
+              S.of(context).Forget_Password,
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ],
@@ -159,7 +189,7 @@ class LogInScreen extends StatelessWidget {
               cubit.isRemembered(v);
             }),
         Text(
-          "Remember Me",
+          S.of(context).Remember_Me,
           style: Theme.of(context).textTheme.bodyText2,
         ),
       ],
@@ -183,7 +213,7 @@ class LogInScreen extends StatelessWidget {
               }
             },
             child: Text(
-              "LOGIN",
+              S.of(context).LOGIN,
               style: Theme.of(context).textTheme.headline1,
             ));
   }
@@ -195,14 +225,14 @@ class LogInScreen extends StatelessWidget {
           height: 10,
         ),
         Text(
-          "-OR-",
+        S.of(context).OR,
           style: Theme.of(context).textTheme.bodyText1,
         ),
         const SizedBox(
           height: 15,
         ),
         Text(
-          "Sign in with",
+          S.of(context).Sign_in_with,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         const SizedBox(
@@ -246,7 +276,7 @@ class LogInScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Dont Have an email?",
+          S.of(context).Dont_have_account,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         GestureDetector(
@@ -254,7 +284,7 @@ class LogInScreen extends StatelessWidget {
             navigateToSignUp(context);
           },
           child: Text(
-            "Sign up",
+            S.of(context).Sign_up,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),

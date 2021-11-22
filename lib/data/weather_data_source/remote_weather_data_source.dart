@@ -29,7 +29,7 @@ class RemoteWeatherDataSource {
 //   var _body = jsonDecode(_response.body);
 //   return _body;
 // }
-@override
+  @override
   Future getWeatherByUserLocation(lat, log) async {
     try {
       var url = weatherApiLocation(lat, log);
@@ -40,11 +40,18 @@ class RemoteWeatherDataSource {
       }
       var _body = jsonDecode(_response.body);
       return _body;
+    } on HttpException catch (error) {
+      print(error);
+      rethrow;
+    } on FormatException catch (error) {
+      print(error);
+      rethrow;
     } catch (e) {
       rethrow;
     }
   }
-@override
+
+  @override
   Future getWeatherByCountryName(String country) async {
     try {
       var url = weatherApiCountry(country);
@@ -56,11 +63,13 @@ class RemoteWeatherDataSource {
 
       var _body = jsonDecode(_response.body);
       return _body;
-    } on SocketException catch (_) {
-      print("Not connected ");
+    } on HttpException catch (error) {
+      print(error);
       rethrow;
-
-    }catch (e) {
+    } on FormatException catch (error) {
+      print(error);
+      rethrow;
+    } catch (e) {
       rethrow;
     }
   }

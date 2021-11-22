@@ -27,7 +27,8 @@ LocalWeatherDataSource localWeatherDataSource=LocalWeatherDataSource();
 
   injectProvider() {
     return [
-      ListenableProvider<WeatherProvider>(create: (context) => weatherViewModel)
+  //    ListenableProvider<WeatherProvider>(create: (context) => weatherViewModel),
+      ChangeNotifierProvider<WeatherProvider>.value(value: weatherViewModel),
     ];
   }
 }

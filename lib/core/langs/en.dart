@@ -1,0 +1,23 @@
+const Map<String,String> en={
+  "logIn":"Sign In",
+  "email":"Email",
+  "enter your email":"enter your email",
+  "password":"password",
+  "Enter Your Password":"enter your password",
+  "Forget Password":"Forget Password",
+  "Remember Me":"Remember Me",
+  "LOGIN":"LOGIN",
+  "-OR-":"-OR-",
+  "Sign in with":"Sign in with",
+  "signUp":"Sign Up",
+  "Haveemail":"Dont Have an email?",
+      "Name":"Name",
+  "Your Name":"Your Name",
+  "Phone NM":"Phone NM",
+  "Your Phone Number":"Your Phone Number",
+  "Confirm Password":"Confirm Password",
+  "Confirm Your Password":"Confirm Your Password",
+  "REGISTER":"REGISTER",
+  "Have an Account?":"Have an Account?",
+
+};
