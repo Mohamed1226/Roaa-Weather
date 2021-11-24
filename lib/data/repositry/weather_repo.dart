@@ -64,7 +64,7 @@ class WeatherRepo {
 
   Future<CountryWeather?> getWeatherByUserLocation() async {
     bool isConnected = await checkConnectionWithInternet();
-    print("checking connection");
+    print("i am in checking connection");
     if (isConnected) {
       var position = await LocationRetriever().retrieve();
 

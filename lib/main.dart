@@ -18,6 +18,7 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  print("tdd");
 
   await CacheHelper.init();
 
@@ -26,6 +27,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   var appInjector = AppInjector();
 
   @override
@@ -62,6 +64,7 @@ class MyApp extends StatelessWidget {
             //     return supportedLocales.first;
             //   }
             // },
+            //tdddddddddddddddddddddddddddddddddddd
             theme: AppThemeFactory().create(weatherProvider.themeType),
             debugShowCheckedModeBanner: false,
             home: const SplashView(),
@@ -73,10 +76,12 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+
             supportedLocales: S.delegate.supportedLocales,
           );
         }),
       ),
     );
   }
+
 }
