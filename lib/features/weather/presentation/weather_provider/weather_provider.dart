@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:roaa_weather/core/app_theme.dart';
 import 'package:roaa_weather/core/location_retriever.dart';
-import 'package:roaa_weather/data/models/weather/country_weather.dart';
-import 'package:roaa_weather/data/repositry/weather_repo.dart';
+import 'package:roaa_weather/features/weather/data/model/country_weather.dart';
+import 'package:roaa_weather/features/weather/data/weather_repository/weather_repo.dart';
 
-import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
 
 class WeatherProvider extends ChangeNotifier {
 

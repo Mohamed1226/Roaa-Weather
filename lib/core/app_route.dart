@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:roaa_weather/data/shar_pref.dart';
-import 'package:roaa_weather/presentation/screens/weather/weather_screen.dart';
-import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
+import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
+import 'package:roaa_weather/features/auth/presentation/pages/login/login_screen.dart';
+import 'package:roaa_weather/features/weather/presentation/pages/weather_screen.dart';
 
 class AppRoute {
   Widget isLogin() {

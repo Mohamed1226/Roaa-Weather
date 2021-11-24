@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:roaa_weather/core/app_config.dart';
-import 'package:roaa_weather/data/apis/weather_api.dart';
-import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/features/weather/weather_api.dart';
+import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
 
 class RemoteWeatherDataSource {
 // late Dio dio;

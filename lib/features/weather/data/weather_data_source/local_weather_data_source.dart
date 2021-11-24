@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:roaa_weather/data/models/weather/country_weather.dart';
+import 'package:roaa_weather/features/weather/data/model/country_weather.dart';
 
-import '../shar_pref.dart';
+import '../../../../core/shared_pref/shar_pref.dart';
 
 class LocalWeatherDataSource {
   CountryWeather? _country;

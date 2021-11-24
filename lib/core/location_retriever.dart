@@ -1,5 +1,5 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:roaa_weather/presentation/widget/app_toast.dart';
+import 'package:roaa_weather/core/widget/app_toast.dart';
 
 class LocationRetriever {
   // retrieve() async {
@@ -7,7 +7,6 @@ class LocationRetriever {
   //       desiredAccuracy: LocationAccuracy.high);
   //   return position;
   // }
-
 
   Future<Position> retrieve() async {
     bool serviceEnabled;

@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/app_theme.dart';
-import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/core/widget/app_card.dart';
+import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
+import 'package:roaa_weather/features/auth/presentation/pages/login/login_screen.dart';
 import 'package:roaa_weather/generated/l10n.dart';
-import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
-import 'package:roaa_weather/presentation/screens/weather/weather_provider.dart';
-import 'package:roaa_weather/presentation/widget/app_card.dart';
+import 'package:roaa_weather/features/weather/presentation/weather_provider/weather_provider.dart';
 
 class WeatherScreen extends StatelessWidget {
   TextEditingController countryController = TextEditingController();

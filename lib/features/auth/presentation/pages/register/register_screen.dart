@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roaa_weather/data/shar_pref.dart';
+import 'package:roaa_weather/core/widget/app_dialog.dart';
+import 'package:roaa_weather/core/widget/app_text_form_field.dart';
+import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
+import 'package:roaa_weather/features/auth/presentation/auth_bloc/authentication_state.dart';
 import 'package:roaa_weather/generated/l10n.dart';
-import 'package:roaa_weather/presentation/screens/login/login_screen.dart';
-import 'package:roaa_weather/presentation/shared/cubit/authentication_cubit.dart';
-import 'package:roaa_weather/presentation/shared/cubit/authentication_state.dart';
-import 'package:roaa_weather/presentation/widget/app_dialog.dart';
-import 'package:roaa_weather/presentation/widget/app_text_form_field.dart';
-import '../weather/weather_screen.dart';
+import 'package:roaa_weather/features/weather/presentation/pages/weather_screen.dart';
+import 'package:roaa_weather/features/auth/presentation/auth_bloc/authentication_cubit.dart';
+
 
 class SignUpScreen extends StatelessWidget {
   static final _formKey = GlobalKey<FormState>();

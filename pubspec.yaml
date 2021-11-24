@@ -52,7 +52,9 @@ dependencies:
   fluttertoast: ^8.0.8
   dartz: ^0.10.0
   get: ^4.3.8
-
+  equatable:
+  get_it:
+  connectivity:
 
 
 dev_dependencies:

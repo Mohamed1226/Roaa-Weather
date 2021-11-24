@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:roaa_weather/data/auth_services/auth_web_service.dart';
+import 'package:roaa_weather/features/auth/data/auth_data_source/auth_web_service.dart';
 
-import 'package:roaa_weather/presentation/widget/app_toast.dart';
 
 class AuthRepo {
   final AuthWebService _authWebService;

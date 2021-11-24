@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:roaa_weather/core/location_retriever.dart';
-import 'package:roaa_weather/data/models/weather/country_weather.dart';
-import 'package:roaa_weather/data/weather_data_source/local_weather_data_source.dart';
-import 'package:roaa_weather/data/weather_data_source/remote_weather_data_source.dart';
-import 'package:roaa_weather/presentation/widget/app_toast.dart';
+import 'package:roaa_weather/core/widget/app_toast.dart';
+import 'package:roaa_weather/features/weather/data/model/country_weather.dart';
+import 'package:roaa_weather/features/weather/data/weather_data_source/local_weather_data_source.dart';
+import 'package:roaa_weather/features/weather/data/weather_data_source/remote_weather_data_source.dart';
 
 class WeatherRepo {
   RemoteWeatherDataSource remoteWeatherDataSource;
