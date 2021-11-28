@@ -3,22 +3,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:roaa_weather/trying_some_code/app_tanslations.dart';
 import 'package:roaa_weather/features/auth/presentation/pages/splash/splash_screen.dart';
-import 'package:roaa_weather/features/weather/presentation/weather_provider/weather_provider.dart';
-import 'trying_some_code/app_localization.dart';
 import 'core/app_theme.dart';
 import 'core/shared_pref/shar_pref.dart';
 import 'di/app_injector.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get.dart';
 
 import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  print("tdd");
+
 
   await CacheHelper.init();
 
@@ -27,7 +23,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   var appInjector = AppInjector();
 
   @override
@@ -36,52 +31,22 @@ class MyApp extends StatelessWidget {
       providers: appInjector.injectBloc(),
       child: MultiProvider(
         providers: appInjector.injectProvider(),
-        child: Consumer<WeatherProvider>(
+        child:  MaterialApp(
+              theme: AppThemeFactory().create(ThemeType.blue),
+              debugShowCheckedModeBanner: false,
+              home: const SplashView(),
+              localizationsDelegates: const [
+                // 1
+                S.delegate,
+                // 2
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+            ),
 
-            builder: (context, weatherProvider, child) {
-             // weatherProvider.getLang(context);
-          return MaterialApp(
-            // translations: Translation(),
-            // locale: Locale('en'),
-            // fallbackLocale:  Locale('en'),
-            // theme: lightTheme,
-            //   darkTheme: AppThemeFactory().create(data.themeType),
-            // supportedLocales: [
-            //   Locale('en', 'US'),
-            //   Locale('ar', 'EG'),
-            // ],
-            // localizationsDelegates: [
-            //   AppLocalization.delegate,
-            //   GlobalMaterialLocalizations.delegate,
-            //   GlobalWidgetsLocalizations.delegate,
-            // ],
-            // localeResolutionCallback: (locale, supportedLocales) {
-            //   for (var supportedLocale in supportedLocales) {
-            //     if (supportedLocale.languageCode == locale!.languageCode &&
-            //         supportedLocale.countryCode == locale!.countryCode) {
-            //       return supportedLocale;
-            //     }
-            //     return supportedLocales.first;
-            //   }
-            // },
-            //tdddddddddddddddddddddddddddddddddddd
-            theme: AppThemeFactory().create(weatherProvider.themeType),
-            debugShowCheckedModeBanner: false,
-            home: const SplashView(),
-            localizationsDelegates: const [
-              // 1
-              S.delegate,
-              // 2
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-
-            supportedLocales: S.delegate.supportedLocales,
-          );
-        }),
       ),
     );
   }
-
 }

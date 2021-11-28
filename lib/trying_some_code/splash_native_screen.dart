@@ -11,7 +11,7 @@
 //
 // class _SplashNativeScreenState extends State<SplashNativeScreen> {
 //
-//   static const platform = MethodChannel('samples.flutter.dev/battery');
+//   static const network = MethodChannel('samples.flutter.dev/battery');
 //
 //   // Get battery level.
 //   String _batteryLevel = 'Unknown battery level.';
@@ -19,7 +19,7 @@
 //   Future<void> _getBatteryLevel() async {
 //     String batteryLevel;
 //     try {
-//       final int result = await platform.invokeMethod('showSplash');
+//       final int result = await network.invokeMethod('showSplash');
 //      batteryLevel = 'Battery level at $result % .';
 //     } on PlatformException catch (e) {
 //       batteryLevel = "Failed to get battery level: '${e.message}'.";

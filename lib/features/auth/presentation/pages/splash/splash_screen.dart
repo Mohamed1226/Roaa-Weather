@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:roaa_weather/core/app_route.dart';
 import 'package:roaa_weather/generated/l10n.dart';
-import 'package:roaa_weather/features/weather/presentation/weather_provider/weather_provider.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);

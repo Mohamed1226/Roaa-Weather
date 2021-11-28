@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:roaa_weather/core/app_config.dart';
-import 'package:roaa_weather/features/weather/weather_api.dart';
+import 'package:roaa_weather/features/weather/data/weather_data_source/weather_api.dart';
 import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
 
 class RemoteWeatherDataSource {

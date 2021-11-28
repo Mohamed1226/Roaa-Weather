@@ -1,109 +1,65 @@
-import 'dart:io';
+import 'package:dartz/dartz.dart';
+import 'package:roaa_weather/core/error/exceptions.dart';
+import 'package:roaa_weather/core/error/failures.dart';
 import 'package:roaa_weather/core/location_retriever.dart';
-import 'package:roaa_weather/core/widget/app_toast.dart';
-import 'package:roaa_weather/features/weather/data/model/country_weather.dart';
-import 'package:roaa_weather/features/weather/data/weather_data_source/local_weather_data_source.dart';
-import 'package:roaa_weather/features/weather/data/weather_data_source/remote_weather_data_source.dart';
+import 'package:roaa_weather/core/network/network_info.dart';
+import 'package:roaa_weather/features/weather/data/model/weather_model.dart';
+import 'package:roaa_weather/features/weather/data/weather_data_source/weather_local_data_source.dart';
+import 'package:roaa_weather/features/weather/data/weather_data_source/weather_remote_data_source.dart';
 
-class WeatherRepo {
-  RemoteWeatherDataSource remoteWeatherDataSource;
-  LocalWeatherDataSource localWeatherDataSource;
+import 'package:roaa_weather/features/weather/domain/entities/weather_entites.dart';
+import 'package:roaa_weather/features/weather/domain/repository/weather_repository.dart';
 
-  WeatherRepo(this.remoteWeatherDataSource, this.localWeatherDataSource);
 
-  CountryWeather? _country;
+typedef Future<WeatherModel> _CountryOrLocationChooser();
+class WeatherRepositoryImpl implements WeatherRepository {
+  final WeatherRemoteDataSource weatherRemoteDataSource;
+  final WeatherLocalDataSource weatherLocalDataSource;
+  final NetworkInfo networkInfo;
+  final LocationRetriever locationRetriever;
 
-  CountryWeather? get country => _country;
+  WeatherRepositoryImpl(
+      {required this.networkInfo,
+      required this.weatherLocalDataSource,
+      required this.weatherRemoteDataSource,
+      required this.locationRetriever});
 
-  // bool isConnected = true;
+  @override
+  Future<Either<Failure, WeatherEntities>> getWeatherByCountryName(
+      String countryName) async {
+    return await _getWeather(() => weatherRemoteDataSource.getWeatherByCountryName(countryName));
 
-  Future<bool> checkConnectionWithInternet() async {
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-       // print("connected ");
-        return true;
-      }
-    } on SocketException catch (_) {
-   //   print("Not connected ");
-      return false;
-    }
-    return false;
   }
 
-  Future<CountryWeather?> getWeatherByCountryName(String country) async {
-    bool isConnected = await checkConnectionWithInternet();
-    print("checking connection");
-
-    if (isConnected) {
-      print("i am in connected");
-
-      await remoteWeatherDataSource
-          .getWeatherByCountryName(country)
-          .then((value) {
-        _country = CountryWeather.fromjson(value);
-        return _country;
-      }).catchError((e) {
-        print(e.toString());
-        print("error");
-        appToast("please input a correct country name");
-      });
-    }
-    if (!isConnected) {
-      print("i am in disconnected");
-      var result = localWeatherDataSource.getSavedWeather();
-      if (result != null) {
-        _country = result;
-        appToast("Last Saved Weather Open Internet to Refresh");
-      } else {
-        appToast("No Internet Connection");
-      }
-    }
-    return _country;
+  @override
+  Future<Either<Failure, WeatherEntities>> getWeatherByLocation(
+      String lat, String lon)async {
+    var position = await locationRetriever.retrieve();
+return await _getWeather(() => weatherRemoteDataSource.getWeatherByLocation(position.latitude.toString(), position.longitude.toString()));
   }
 
-  Future<CountryWeather?> getWeatherByUserLocation() async {
-    bool isConnected = await checkConnectionWithInternet();
-    print("i am in checking connection");
-    if (isConnected) {
-      var position = await LocationRetriever().retrieve();
 
-      print("i am in connected");
+  Future<Either<Failure, WeatherEntities>>   _getWeather(
 
-      return await remoteWeatherDataSource
-          .getWeatherByUserLocation(position.latitude, position.longitude)
-          .then((value) {
-        print("i am in then");
-        _country = CountryWeather.fromjson(value);
-        return _country;
-      }).catchError((e) {
-        print("i am in catchError");
-
-        print(e.toString());
-        print("error");
-        if (e.runtimeType is HttpException) {
-          print("i am in HttpException");
-
-          appToast("Server Not Found");
-        } else if (e.runtimeType is FormatException) {
-          print("i am in HttpException");
-
-          appToast("some thing wrong happened");
-        } else {
-          appToast("please open GBS");
-        }
-      });
-    }
-    if (!isConnected) {
-      print("i am in disconnected");
-      var result = localWeatherDataSource.getSavedWeather();
-      if (result != null) {
-        _country = result;
-        appToast("The Last Saved Weather Open Internet");
-      } else {
-        appToast("No Internet Connection");
+      _CountryOrLocationChooser getWeatherByCountryOrLocation
+      )async{
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteWeather =
+        await getWeatherByCountryOrLocation();
+        weatherLocalDataSource.cacheWeather(remoteWeather);
+        return Right(remoteWeather);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      try {
+        final cachedWeather = await weatherLocalDataSource.getLastWeather();
+        return Right(cachedWeather);
+      } on CacheException {
+        return Left(Cachefailure());
       }
     }
-    return _country;
+
   }
 }

@@ -16,9 +16,10 @@ import 'package:intl/message_lookup_by_library.dart';
 import 'package:intl/src/intl_helpers.dart';
 
 import 'messages_ar_eg.dart' as messages_ar_eg;
-import 'messages_en_US.dart' as messages_en_us;
+import 'messages_en_uS.dart' as messages_en_us;
 
 typedef Future<dynamic> LibraryLoader();
+
 Map<String, LibraryLoader> _deferredLibraries = {
   'ar_EG': () => new Future.value(null),
   'en_US': () => new Future.value(null),
