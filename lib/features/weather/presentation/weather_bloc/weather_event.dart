@@ -7,3 +7,11 @@ class GetWeatherByCountry extends WeatherEvent {
   @override
   List<Object?> get props =>[];
 }
+
+
+
+class GetWeatherByLocation extends WeatherEvent {
+
+  @override
+  List<Object?> get props =>[];
+}

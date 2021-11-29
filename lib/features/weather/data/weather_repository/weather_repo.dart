@@ -10,8 +10,8 @@ import 'package:roaa_weather/features/weather/data/weather_data_source/weather_r
 import 'package:roaa_weather/features/weather/domain/entities/weather_entites.dart';
 import 'package:roaa_weather/features/weather/domain/repository/weather_repository.dart';
 
-
 typedef Future<WeatherModel> _CountryOrLocationChooser();
+
 class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherRemoteDataSource weatherRemoteDataSource;
   final WeatherLocalDataSource weatherLocalDataSource;
@@ -27,26 +27,23 @@ class WeatherRepositoryImpl implements WeatherRepository {
   @override
   Future<Either<Failure, WeatherEntities>> getWeatherByCountryName(
       String countryName) async {
-    return await _getWeather(() => weatherRemoteDataSource.getWeatherByCountryName(countryName));
-
+    return await _getWeather(
+        () => weatherRemoteDataSource.getWeatherByCountryName(countryName));
   }
 
   @override
   Future<Either<Failure, WeatherEntities>> getWeatherByLocation(
-      String lat, String lon)async {
+      String lat, String lon) async {
     var position = await locationRetriever.retrieve();
-return await _getWeather(() => weatherRemoteDataSource.getWeatherByLocation(position.latitude.toString(), position.longitude.toString()));
+    return await _getWeather(() => weatherRemoteDataSource.getWeatherByLocation(
+        position.latitude.toString(), position.longitude.toString()));
   }
 
-
-  Future<Either<Failure, WeatherEntities>>   _getWeather(
-
-      _CountryOrLocationChooser getWeatherByCountryOrLocation
-      )async{
+  Future<Either<Failure, WeatherEntities>> _getWeather(
+      _CountryOrLocationChooser getWeatherByCountryOrLocation) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteWeather =
-        await getWeatherByCountryOrLocation();
+        final remoteWeather = await getWeatherByCountryOrLocation();
         weatherLocalDataSource.cacheWeather(remoteWeather);
         return Right(remoteWeather);
       } on ServerException {
@@ -60,6 +57,5 @@ return await _getWeather(() => weatherRemoteDataSource.getWeatherByLocation(posi
         return Left(Cachefailure());
       }
     }
-
   }
 }

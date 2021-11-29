@@ -5,10 +5,10 @@ import 'package:roaa_weather/core/usecase/usecase.dart';
 import 'package:roaa_weather/features/weather/domain/entities/weather_entites.dart';
 import 'package:roaa_weather/features/weather/domain/repository/weather_repository.dart';
 
-class GetWeatherByLocation implements UseCase<WeatherEntities, Params> {
+class GetWeatherByLocationUseCases implements UseCase<WeatherEntities, Params> {
   final WeatherRepository repository;
 
-  GetWeatherByLocation(this.repository);
+  GetWeatherByLocationUseCases(this.repository);
 
   @override
   Future<Either<Failure, WeatherEntities>> call(Params params) async {
