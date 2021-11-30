@@ -5,21 +5,21 @@ import 'package:roaa_weather/core/usecase/usecase.dart';
 import 'package:roaa_weather/features/weather/domain/entities/weather_entites.dart';
 import 'package:roaa_weather/features/weather/domain/repository/weather_repository.dart';
 
-class GetWeatherByLocationUseCases implements UseCase<WeatherEntities, Params> {
+class GetWeatherByLocationUseCases implements UseCase<WeatherEntities, ParamsL> {
   final WeatherRepository repository;
 
   GetWeatherByLocationUseCases(this.repository);
 
   @override
-  Future<Either<Failure, WeatherEntities>> call(Params params) async {
+  Future<Either<Failure, WeatherEntities>> call(ParamsL params) async {
     return await repository.getWeatherByLocation(params.lat, params.lon);
   }
 }
 
-class Params extends Equatable {
-  final String lat,lon;
+class ParamsL extends Equatable {
+  final  lat,lon;
 
-  Params({required this.lat,required this.lon});
+  ParamsL({required this.lat,required this.lon});
 
   @override
   // TODO: implement props

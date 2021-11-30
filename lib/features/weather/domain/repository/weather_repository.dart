@@ -7,5 +7,5 @@ abstract class WeatherRepository {
       String countryName);
 
   Future<Either<Failure, WeatherEntities>> getWeatherByLocation(
-      String lat, String lon);
+       lat,  lon);
 }

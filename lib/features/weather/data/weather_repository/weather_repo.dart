@@ -16,13 +16,13 @@ class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherRemoteDataSource weatherRemoteDataSource;
   final WeatherLocalDataSource weatherLocalDataSource;
   final NetworkInfo networkInfo;
-  final LocationRetriever locationRetriever;
+//  final LocationRetriever locationRetriever;
 
   WeatherRepositoryImpl(
       {required this.networkInfo,
       required this.weatherLocalDataSource,
       required this.weatherRemoteDataSource,
-      required this.locationRetriever});
+      });
 
   @override
   Future<Either<Failure, WeatherEntities>> getWeatherByCountryName(
@@ -33,10 +33,9 @@ class WeatherRepositoryImpl implements WeatherRepository {
 
   @override
   Future<Either<Failure, WeatherEntities>> getWeatherByLocation(
-      String lat, String lon) async {
-    var position = await locationRetriever.retrieve();
-    return await _getWeather(() => weatherRemoteDataSource.getWeatherByLocation(
-        position.latitude.toString(), position.longitude.toString()));
+       lat,  lon) async {
+    return await _getWeather(
+        () => weatherRemoteDataSource.getWeatherByLocation(lat, lon));
   }
 
   Future<Either<Failure, WeatherEntities>> _getWeather(

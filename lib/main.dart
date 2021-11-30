@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:roaa_weather/features/auth/presentation/pages/splash/splash_screen.dart';
+import 'package:roaa_weather/features/weather/presentation/weather_provider/weather_provider.dart';
 import 'core/app_theme.dart';
 import 'core/shared_pref/shar_pref.dart';
 import 'di/app_injector.dart';
@@ -15,9 +16,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-
   await CacheHelper.init();
 
+   await init();
   runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
   // runApp( MyApp());
 }
@@ -30,9 +31,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: appInjector.injectBloc(),
       child: MultiProvider(
-        providers: appInjector.injectProvider(),
-        child:  MaterialApp(
-              theme: AppThemeFactory().create(ThemeType.blue),
+        providers: injectProvider2(),
+        child: Consumer<WeatherProvider>(
+          builder: (context, weatherProvider, child) {
+            return MaterialApp(
+              theme: AppThemeFactory().create(weatherProvider.themeType),
               debugShowCheckedModeBanner: false,
               home: const SplashView(),
               localizationsDelegates: const [
@@ -44,8 +47,9 @@ class MyApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: S.delegate.supportedLocales,
-            ),
-
+            );
+          },
+        ),
       ),
     );
   }

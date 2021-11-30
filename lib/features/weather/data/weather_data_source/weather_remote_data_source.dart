@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 abstract class WeatherRemoteDataSource {
   Future<WeatherModel> getWeatherByCountryName(String countryName);
 
-  Future<WeatherModel> getWeatherByLocation(String lat, String lon);
+  Future<WeatherModel> getWeatherByLocation( lat,  lon);
 }
 
 class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
@@ -29,7 +29,7 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
   }
 
   @override
-  Future<WeatherModel> getWeatherByLocation(String lat, String lon) async{
+  Future<WeatherModel> getWeatherByLocation( lat,  lon) async{
     var url = weatherApiLocation(lat,lon);
     http.Response _response = await client.get(url);
     if (_response.statusCode == 200) {

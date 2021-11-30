@@ -54,7 +54,7 @@ dependencies:
   get: ^4.3.8
   equatable:
   get_it:
-  data_connection_checker: ^0.3.4
+
 
 
 dev_dependencies:
@@ -81,10 +81,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/
-    - lang/ar.json
-    - lang/en.json
+#  assets:
+#    - assets/
+#    - lang/ar.json
+#    - lang/en.json
 
   #   - images/a_dot_ham.jpeg
 

@@ -1,25 +1,28 @@
 import 'package:roaa_weather/features/weather/domain/entities/weather_entites.dart';
 
 class WeatherModel extends WeatherEntities {
-  WeatherModel({required feelsLike,
-    required name,
-    required humidity,
-    required pressure,
-    required temp,
-    required wind,
-    required lat,
-    required lon,
-    required description})
+
+
+  WeatherModel(
+      {required double feelsLike,
+      required String name,
+      required int humidity,
+      required int pressure,
+      required double temp,
+      required double wind,
+      required num lat,
+      required num lon,
+      required String description})
       : super(
-      feelsLike: feelsLike,
-      description: description,
-      humidity: humidity,
-      lat: lat,
-      lon: lon,
-      name: name,
-      wind: wind,
-      temp: temp,
-      pressure: pressure);
+            feelsLike: feelsLike,
+            description: description,
+            humidity: humidity,
+            lat: lat,
+            lon: lon,
+            name: name,
+            wind: wind,
+            temp: temp,
+            pressure: pressure);
 
   factory WeatherModel.fromjson(Map<String, dynamic> json) {
     return WeatherModel(
@@ -44,19 +47,18 @@ class WeatherModel extends WeatherEntities {
       "feels_like": feelsLike,
       "main": description,
       "lat": lat,
-      "lon":lon,
+      "lon": lon,
     };
   }
 
-
-  WeatherModel initialCountryWeather = WeatherModel(
-      feelsLike: 20.0,
-      name: "london",
-      lat: 20.0,
-      lon: 40.0,
-      description: "clear",
-      humidity: 20,
-      pressure: 20,
-      temp: 20.0,
-      wind: 20.0);
+//   WeatherModel initialCountryWeather = WeatherModel(
+//       feelsLike: 20.0,
+//       name: "london",
+//       lat: 20.0,
+//       lon: 40.0,
+//       description: "clear",
+//       humidity: 20,
+//       pressure: 20,
+//       temp: 20.0,
+//       wind: 20.0);
 }
