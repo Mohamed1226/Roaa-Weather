@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:roaa_weather/core/animation/animation_route.dart';
 import 'package:roaa_weather/core/app_route.dart';
 import 'package:roaa_weather/generated/l10n.dart';
 
@@ -37,9 +38,10 @@ class _SplashViewState extends State<SplashView>
     animationController?.forward();
     Timer(const Duration(seconds: 5), () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return appRoute!.isLogin();
-      }));
+          .pushReplacement(
+       SlidRight(page: appRoute!.isLogin())
+
+      );
     });
   }
 

@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:roaa_weather/core/animation/animation_route.dart';
 import 'package:roaa_weather/core/app_theme.dart';
 import 'package:roaa_weather/core/widget/app_card.dart';
 import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
 import 'package:roaa_weather/features/auth/presentation/pages/login/login_screen.dart';
+import 'package:roaa_weather/features/weather/presentation/pages/silver_screen.dart';
 import 'package:roaa_weather/features/weather/presentation/weather_bloc/weather_bloc.dart';
 import 'package:roaa_weather/features/weather/presentation/weather_provider/weather_provider.dart';
 import 'package:roaa_weather/generated/l10n.dart';
@@ -28,12 +30,21 @@ class WeatherScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                        radius: 60,
-                        child: Image.asset(
-                          "assets/thunder.png",
-                          fit: BoxFit.cover,
-                        )),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SilverScreen()));
+                      },
+                      child: CircleAvatar(
+                          radius: 60,
+                          child: Hero(
+                            tag: 5,
+                            child: Image.asset(
+                              "assets/thunder.png",
+                              fit: BoxFit.cover,
+                            ),
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -54,8 +65,8 @@ class WeatherScreen extends StatelessWidget {
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   CacheHelper.putData(key: "uId", value: "");
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LogInScreen()));
+                  Navigator.of(context)
+                      .pushReplacement(SlidRight(page: SilverScreen()));
                 },
                 child: Text(S.of(context).Sign_Out),
               ),
@@ -73,12 +84,11 @@ class WeatherScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 50),
               width: MediaQuery.of(context).size.width,
               child: Column(
-
                 children: [
                   if (!weatherViewModel.isConnected)
-                     Text(
+                    Text(
                       S.of(context).check_internet,
-                      style:const TextStyle(
+                      style: const TextStyle(
                           color: Colors.green,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
@@ -164,9 +174,9 @@ class WeatherScreen extends StatelessWidget {
                             if (formKey.currentState!.validate()) {
                               weatherViewModel.getWeatherByCountryName(
                                   context, countryController.text);
-                           weatherViewModel.checkSavedWeather();
+                              weatherViewModel.checkSavedWeather();
                               countryController.clear();
-                          //    weatherViewModel.isSearching();
+                              //    weatherViewModel.isSearching();
                               //   provider.getAllCountries();
                             }
                           },

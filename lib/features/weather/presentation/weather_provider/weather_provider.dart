@@ -83,7 +83,7 @@ bool isConnected=true;
       changeImageAccordingTem();
 
       _hasData = true;
-      print("i am in changeImageAccordingTem");
+     // print("i am in changeImageAccordingTem");
       notifyListeners();
     });
   }
@@ -92,11 +92,11 @@ bool isConnected=true;
   String mapFailuretoString(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return "Server Failure";
+        return "Please Input An Correct Country Name";
       case Cachefailure:
-        return "Cache failure";
+        return "No Data Cached";
       default:
-        return "anthor error";
+        return "Please Try Again ...";
     }
   }
 

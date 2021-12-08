@@ -46,7 +46,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
         weatherLocalDataSource.cacheWeather(remoteWeather);
         return Right(remoteWeather);
       } on ServerException {
-        return Left(ServerFailure());
+        return Left(ServerFailure( ));
       }
     } else {
       try {

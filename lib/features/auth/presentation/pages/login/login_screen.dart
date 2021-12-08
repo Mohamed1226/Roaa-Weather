@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:roaa_weather/core/animation/animation_route.dart';
 import 'package:roaa_weather/core/widget/app_dialog.dart';
 import 'package:roaa_weather/core/widget/app_text_form_field.dart';
 import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
@@ -297,13 +298,14 @@ class _LogInScreenState extends State<LogInScreen> {
     if (cubit.isRemember) {
       CacheHelper.putData(key: "uId", value: id);
     }
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return WeatherScreen();
-    }));
+    Navigator.pushReplacement(context,
+        SlidRight(page: WeatherScreen())
+    );
   }
 
   navigateToSignUp(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+    Navigator.pushReplacement(context,
+        SlidRight(page: SignUpScreen())
+    );
   }
 }

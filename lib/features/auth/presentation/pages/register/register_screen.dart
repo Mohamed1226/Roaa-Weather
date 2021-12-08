@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:roaa_weather/core/animation/animation_route.dart';
 import 'package:roaa_weather/core/widget/app_dialog.dart';
 import 'package:roaa_weather/core/widget/app_text_form_field.dart';
 import 'package:roaa_weather/core/shared_pref/shar_pref.dart';
 import 'package:roaa_weather/features/auth/presentation/auth_bloc/authentication_state.dart';
+import 'package:roaa_weather/features/auth/presentation/pages/login/login_screen.dart';
 import 'package:roaa_weather/generated/l10n.dart';
 import 'package:roaa_weather/features/weather/presentation/pages/weather_screen.dart';
 import 'package:roaa_weather/features/auth/presentation/auth_bloc/authentication_cubit.dart';
-
 
 class SignUpScreen extends StatelessWidget {
   static final _formKey = GlobalKey<FormState>();
@@ -38,8 +39,7 @@ class SignUpScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
           appBar: AppBar(
-            backgroundColor:
-                Theme.of(context).primaryColor.withOpacity(0.1),
+            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
             elevation: 0,
           ),
           body: SingleChildScrollView(
@@ -52,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                       S.of(context).Sign_up,
+                        S.of(context).Sign_up,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ),
@@ -82,7 +82,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                    S.of(context).phone  ,
+                      S.of(context).phone,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -128,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                     S.of(context).password,
+                      S.of(context).password,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(
@@ -245,7 +245,7 @@ class SignUpScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-        S.of(context).have_account,
+          S.of(context).have_account,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         GestureDetector(
@@ -253,7 +253,7 @@ class SignUpScreen extends StatelessWidget {
             navigateToSignUp(context);
           },
           child: Text(
-           S.of(context).LOGIN,
+            S.of(context).LOGIN,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
@@ -264,12 +264,10 @@ class SignUpScreen extends StatelessWidget {
   saveIdThenNavigate(BuildContext context, String id) {
     CacheHelper.putData(key: "uId", value: id);
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return WeatherScreen();
-    }));
+    Navigator.pushReplacement(context, SlidRight(page: WeatherScreen()));
   }
 
   navigateToSignUp(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.pushReplacement(context, SlidRight(page: LogInScreen()));
   }
 }
