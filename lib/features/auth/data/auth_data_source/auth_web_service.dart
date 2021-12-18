@@ -3,6 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthWebService {
+
+  late String id;
   Future<UserCredential> register({
     required String password,
     required String email,
@@ -62,4 +64,31 @@ try{
   throw(e);
     }
   }
+
+
+  // Future<void> signInWithPhoneNumber(String phoneNumber) async {
+  //   // print("888");
+  //   try{
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //       phoneNumber: "+2$phoneNumber",
+  //       verificationCompleted: (PhoneAuthCredential credential) async{
+  //         print("verificationCompleted");
+  //        // await signIn(credential);
+  //       },
+  //       verificationFailed: (FirebaseAuthException e) {
+  //         print("verificationFailed $e");
+  //
+  //         throw(e);
+  //       },
+  //       codeSent: (String verificationId, int? resendToken) {
+  //         id=verificationId;
+  //       },
+  //       codeAutoRetrievalTimeout: (String verificationId) {},
+  //     );
+  //
+  //   }
+  //   catch(e){
+  //     throw(e);
+  //   }
+  // }
 }

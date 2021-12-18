@@ -39,6 +39,9 @@
   "Pressure": "Pressure",
   "FeelsLike": "FeelsLike",
   "Humidity": "Humidity",
-  "C":"°C"
-
+  "C":"°C",
+  "next": "Next",
+  "Please_Input_Your_Phone_Number": "Please Input Your Phone Number",
+  "verify_phone": "please verify your phone number with 6 digit code numbers sent to your phone",
+  "verify": "verify"
 }

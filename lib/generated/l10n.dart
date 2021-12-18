@@ -449,6 +449,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Input Your Phone Number`
+  String get Please_Input_Your_Phone_Number {
+    return Intl.message(
+      'Please Input Your Phone Number',
+      name: 'Please_Input_Your_Phone_Number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please verify your phone number with 6 digit code numbers sent to your phone`
+  String get verify_phone {
+    return Intl.message(
+      'please verify your phone number with 6 digit code numbers sent to your phone',
+      name: 'verify_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `verify`
+  String get verify {
+    return Intl.message(
+      'verify',
+      name: 'verify',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

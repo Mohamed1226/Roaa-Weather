@@ -23,4 +23,8 @@ class AuthRepo {
   loginWithFacebook() {
     return _authWebService.signInWithFacebook();
   }
+
+  // loginWithPhoneNumber() {
+  //   return _authWebService.signInWithPhoneNumber();
+  // }
 }

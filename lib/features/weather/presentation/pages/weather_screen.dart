@@ -32,8 +32,8 @@ class WeatherScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SilverScreen()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => SilverScreen()));
                       },
                       child: CircleAvatar(
                           radius: 60,
@@ -66,7 +66,7 @@ class WeatherScreen extends StatelessWidget {
                   FirebaseAuth.instance.signOut();
                   CacheHelper.putData(key: "uId", value: "");
                   Navigator.of(context)
-                      .pushReplacement(SlidRight(page: SilverScreen()));
+                      .pushReplacement(SlidRight(page: LogInScreen()));
                 },
                 child: Text(S.of(context).Sign_Out),
               ),

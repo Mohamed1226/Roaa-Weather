@@ -45,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Open_GPS": MessageLookupByLibrary.simpleMessage("افتح الموقع"),
         "Password_can_not_be_empty": MessageLookupByLibrary.simpleMessage(
             "الباسورد لا يمكن ان يكون فارغ"),
+        "Please_Input_Your_Phone_Number":
+            MessageLookupByLibrary.simpleMessage("من فضلك ادخل رقم التليفون"),
         "Pressure": MessageLookupByLibrary.simpleMessage("الضغط"),
         "REGISTER": MessageLookupByLibrary.simpleMessage("سجل"),
         "Remember_Me": MessageLookupByLibrary.simpleMessage("تذكرني"),
@@ -74,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "name_can_not_be_empty":
             MessageLookupByLibrary.simpleMessage("الاسم لا يمكن ان يكون فارغ"),
+        "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "password": MessageLookupByLibrary.simpleMessage("الباسورد"),
         "passwords_not_matches":
             MessageLookupByLibrary.simpleMessage("من فضلك ادخل نفس الباسورد"),
@@ -81,6 +84,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "phone_can_not_be_empty": MessageLookupByLibrary.simpleMessage(
             "رقم التليفون لا يمكن ان يكون فارغ"),
         "search_country":
-            MessageLookupByLibrary.simpleMessage("ابحث عن طقس دولتك")
+            MessageLookupByLibrary.simpleMessage("ابحث عن طقس دولتك"),
+        "verify": MessageLookupByLibrary.simpleMessage("تأكيد"),
+        "verify_phone": MessageLookupByLibrary.simpleMessage(
+            "من فضلك ادخل الكو المكون من 6 ارقام تم ارساله للتليفون الخاص بك")
       };
 }

@@ -3,7 +3,7 @@ class AuthenticationState {}
 class AuthenticationInitState extends AuthenticationState {}
 
 class AuthenticationLoadingState extends AuthenticationState {}
-class AuthenticationNoLoadingState extends AuthenticationState {}
+//class AuthenticationNoLoadingState extends AuthenticationState {}
 
 
 class AuthenticationSucceedState extends AuthenticationState {
@@ -11,6 +11,9 @@ class AuthenticationSucceedState extends AuthenticationState {
 
   AuthenticationSucceedState(this.uId);
 }
+class PhoneNumberSubmitted extends AuthenticationState{}
+
+
 
 class AuthenticationErrorState extends AuthenticationState {
   final String error;

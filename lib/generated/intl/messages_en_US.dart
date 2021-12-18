@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Open_GPS": MessageLookupByLibrary.simpleMessage("Open GPS"),
         "Password_can_not_be_empty":
             MessageLookupByLibrary.simpleMessage("Password can not be empty"),
+        "Please_Input_Your_Phone_Number": MessageLookupByLibrary.simpleMessage(
+            "Please Input Your Phone Number"),
         "Pressure": MessageLookupByLibrary.simpleMessage("Pressure"),
         "REGISTER": MessageLookupByLibrary.simpleMessage("REGISTER"),
         "Remember_Me": MessageLookupByLibrary.simpleMessage("Remember Me"),
@@ -76,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "name_can_not_be_empty":
             MessageLookupByLibrary.simpleMessage("Name can not be empty"),
+        "next": MessageLookupByLibrary.simpleMessage("Next"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "passwords_not_matches":
             MessageLookupByLibrary.simpleMessage("passwords not matches"),
@@ -83,6 +86,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "phone_can_not_be_empty":
             MessageLookupByLibrary.simpleMessage("phone number required"),
         "search_country": MessageLookupByLibrary.simpleMessage(
-            "Search For Your Country Weather")
+            "Search For Your Country Weather"),
+        "verify": MessageLookupByLibrary.simpleMessage("verify"),
+        "verify_phone": MessageLookupByLibrary.simpleMessage(
+            "please verify your phone number with 6 digit code numbers sent to your phone")
       };
 }

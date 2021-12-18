@@ -10,6 +10,7 @@ import 'package:roaa_weather/generated/l10n.dart';
 import 'package:roaa_weather/features/weather/presentation/pages/weather_screen.dart';
 import 'package:roaa_weather/features/auth/presentation/auth_bloc/authentication_cubit.dart';
 
+import 'login_with_number.dart';
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -21,11 +22,9 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final TextEditingController password = TextEditingController();
 
- // String selectedLang = "en";
+  // String selectedLang = "en";
 
-  static final formKey = GlobalKey<FormState>();
-
-
+   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +44,7 @@ class _LogInScreenState extends State<LogInScreen> {
       return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         appBar: AppBar(
-          backgroundColor:
-              Theme.of(context).primaryColor.withOpacity(0.1),
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
           elevation: 0,
           leading: Text(""),
           // title: DropdownButton(
@@ -227,7 +225,7 @@ class _LogInScreenState extends State<LogInScreen> {
           height: 10,
         ),
         Text(
-        S.of(context).OR,
+          S.of(context).OR,
           style: Theme.of(context).textTheme.bodyText1,
         ),
         const SizedBox(
@@ -266,6 +264,25 @@ class _LogInScreenState extends State<LogInScreen> {
                 height: 40,
                 width: 40,
               ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LoginWithPhoneNumberScreen()));
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                color: Colors.red,
+                child: Icon(
+                  Icons.phone,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
             )
           ],
         ),
@@ -298,14 +315,10 @@ class _LogInScreenState extends State<LogInScreen> {
     if (cubit.isRemember) {
       CacheHelper.putData(key: "uId", value: id);
     }
-    Navigator.pushReplacement(context,
-        SlidRight(page: WeatherScreen())
-    );
+    Navigator.pushReplacement(context, SlidRight(page: WeatherScreen()));
   }
 
   navigateToSignUp(BuildContext context) {
-    Navigator.pushReplacement(context,
-        SlidRight(page: SignUpScreen())
-    );
+    Navigator.pushReplacement(context, SlidRight(page: SignUpScreen()));
   }
 }
